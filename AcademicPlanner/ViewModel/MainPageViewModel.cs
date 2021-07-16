@@ -28,7 +28,7 @@ namespace AcademicPlanner.ViewModel
         {
             Terms.Clear();
             //await TermService.AddTerm("Term 1", DateTime.Now, DateTime.Today.AddDays(7));
-            await LoadTasks();
+            await LoadTerms();
         }
         async Task LoadTerms()
         {
