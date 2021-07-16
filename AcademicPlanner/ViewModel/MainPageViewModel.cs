@@ -17,10 +17,16 @@ namespace AcademicPlanner.ViewModel
         public MainPageViewModel()
         {
             _ = LoadTerms();
+
             // subscribe to the msg sent from the AddTermPageViewModel to add a term to the Terms collection
             MessagingCenter.Subscribe<Term>(this, "AddNew", term => 
             {
                 Terms.Add(term);
+            });
+            // subscribe to the msg sent from TermPageViewModel to delete a term from the Terms collection
+            MessagingCenter.Subscribe<Term>(this, "DeleteTerm", term =>
+            {
+                Terms.Remove(term);
             });
         }
         // demo code
@@ -39,6 +45,8 @@ namespace AcademicPlanner.ViewModel
                 Terms.Add((Term)term);
             }
         }
+
+        // Commands
         public ICommand Navigate => new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddTermPage()));
     }
 }

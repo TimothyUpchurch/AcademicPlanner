@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AcademicPlanner.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,13 @@ namespace AcademicPlanner.View
         public MainPage()
         {
             InitializeComponent();
+        }
+        async void TermSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            Term term = (Term)e.SelectedItem;
+            if (term == null) return;
+            await Navigation.PushAsync(new TermPage(term));
+            termsListView.SelectedItem = null;
         }
     }
 }

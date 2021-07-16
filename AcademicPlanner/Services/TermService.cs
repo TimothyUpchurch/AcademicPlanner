@@ -27,10 +27,10 @@ namespace AcademicPlanner.Services
             await Init();
             await db.InsertAsync(term);
         }
-        public static async Task RemoveTerm(int id)
+        public static async Task RemoveTerm(Term term)
         {
             await Init();
-            await db.DeleteAsync<Term>(id);
+            await db.DeleteAsync<Term>(term.TermID);
         }
         public static async Task UpdateTerm(Term term)
         {

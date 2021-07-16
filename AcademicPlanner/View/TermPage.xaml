@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewModels="clr-namespace:AcademicPlanner.ViewModel"
+             x:Class="AcademicPlanner.View.TermPage">
+
+    <ContentPage.BindingContext>
+        <viewModels:TermPageViewModel />
+    </ContentPage.BindingContext>
+
+    <NavigationPage.TitleView>
+        <Button Text="Delete" Command="{Binding DeleteTermCommand}" x:Name="deleteTermButton"/>
+    </NavigationPage.TitleView>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <Label x:Name="selectedTermName"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="selectedTermID" Text="{Binding TermID, Mode=TwoWay}" IsVisible="false"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

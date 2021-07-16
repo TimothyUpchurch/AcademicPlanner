@@ -34,17 +34,25 @@ namespace AcademicPlanner.ViewModel
         public ICommand AddTermCommand => new Command(AddTerm);
         async void AddTerm()
         {
-            // create new term from user selected values      
-            Term newTerm = new Term
+            // Check name value is entered in
+            if (_termName != null)
             {
-                TermName = _termName,
-                TermStart = _startDate,
-                TermEnd = _endDate
-            };
-            await TermService.AddTerm(newTerm);
-            // Send msg to add new term to the Terms observablecollection in the mainpageviewmodel
-            MessagingCenter.Send(newTerm, "AddNew");
-            await Application.Current.MainPage.Navigation.PopAsync();
+                // create new term from user selected values      
+                Term newTerm = new Term
+                {
+                    TermName = _termName,
+                    TermStart = _startDate,
+                    TermEnd = _endDate
+                };
+                await TermService.AddTerm(newTerm);
+                // Send msg to add new term to the Terms observablecollection in the mainpageviewmodel
+                MessagingCenter.Send(newTerm, "AddNew");
+                await Application.Current.MainPage.Navigation.PopAsync();
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Alert", "Please Enter A Name.", "OK");
+            }
         }
     }
 }
