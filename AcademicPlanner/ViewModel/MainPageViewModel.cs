@@ -16,21 +16,21 @@ namespace AcademicPlanner.ViewModel
         public ObservableCollection<Term> Terms { get; set; } = new ObservableCollection<Term>();
         public MainPageViewModel()
         {
-            _ = LoadTasks();           
+            _ = LoadTerms();
+            // subscribe to the msg sent from the AddTermPageViewModel to add a term to the Terms collection
+            MessagingCenter.Subscribe<Term>(this, "AddNew", term => 
+            {
+                Terms.Add(term);
+            });
         }
-        public MainPageViewModel(INavigation navigation)
-        {
-            _ = LoadTasks();
-            this.Navigation = navigation;
-        }
-        public INavigation Navigation { get; set; }
+        // demo code
         async Task DemoTerms()
         {
             Terms.Clear();
-            await TermService.AddTerm("Term 1", DateTime.Now, DateTime.Today.AddDays(7));
+            //await TermService.AddTerm("Term 1", DateTime.Now, DateTime.Today.AddDays(7));
             await LoadTasks();
         }
-        async Task LoadTasks()
+        async Task LoadTerms()
         {
             Terms.Clear();
             var terms = (await TermService.GetTerms());
@@ -39,12 +39,6 @@ namespace AcademicPlanner.ViewModel
                 Terms.Add((Term)term);
             }
         }
-
-        public ICommand Navigate => new Command(NavigateAddTermPage);
-        async void NavigateAddTermPage()
-        {
-            if (Navigation != null)
-            await Navigation.PushAsync(new AddTermPage());
-        }
+        public ICommand Navigate => new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddTermPage()));
     }
 }

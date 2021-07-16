@@ -22,15 +22,9 @@ namespace AcademicPlanner.Services
             db = new SQLiteAsyncConnection(databasePath);
             await db.CreateTableAsync<Term>();
         }
-        public static async Task AddTerm(string termName, DateTime termStart, DateTime termEnd)
+        public static async Task AddTerm(Term term)
         {
             await Init();
-            Term term = new Term
-            {
-                TermName = termName,
-                TermStart = termStart,
-                TermEnd = termEnd
-            };
             await db.InsertAsync(term);
         }
         public static async Task RemoveTerm(int id)

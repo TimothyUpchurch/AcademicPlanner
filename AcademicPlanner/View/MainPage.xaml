@@ -10,7 +10,7 @@
 
     <StackLayout>
         <ScrollView>
-            <ListView ItemsSource="{Binding Terms}">
+            <ListView ItemsSource="{Binding Terms}" x:Name="termsListView">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
