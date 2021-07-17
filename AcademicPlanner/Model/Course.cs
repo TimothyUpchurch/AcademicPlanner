@@ -19,6 +19,6 @@ namespace AcademicPlanner.Model
         public string InstructorPhone { get; set; }
         public string InstructorEmail { get; set; }
         public string CourseNotes { get; set; }
-
+        public bool SetAlerts { get; set; }
     }
 }
