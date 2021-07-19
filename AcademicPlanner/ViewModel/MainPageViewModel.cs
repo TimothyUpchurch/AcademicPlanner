@@ -19,7 +19,7 @@ namespace AcademicPlanner.ViewModel
             _ = LoadTerms();
 
             // subscribe to the msg sent from the AddTermPageViewModel to add a term to the Terms collection
-            MessagingCenter.Subscribe<Term>(this, "AddNew", term => 
+            MessagingCenter.Subscribe<Term>(this, "AddTerm", term => 
             {
                 Terms.Add(term);
             });

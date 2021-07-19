@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AcademicPlanner.Model
 {
-    class Course
+    public class Course
     {
         [PrimaryKey, AutoIncrement]
         public int CourseID { get; set; }

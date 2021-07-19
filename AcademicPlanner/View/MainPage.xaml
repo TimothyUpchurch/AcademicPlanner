@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:viewModels="clr-namespace:AcademicPlanner.ViewModel"
              x:Class="AcademicPlanner.View.MainPage">
-
+             
     <ContentPage.BindingContext>
         <viewModels:MainPageViewModel />
     </ContentPage.BindingContext>
 
     <StackLayout>
         <ScrollView>
-            <ListView ItemsSource="{Binding Terms}" x:Name="termsListView" ItemSelected="TermSelected">
+            <ListView ItemsSource="{Binding Terms}" x:Name="termsListView" ItemSelected="TermSelected" SeparatorVisibility="Default" HasUnevenRows="False">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

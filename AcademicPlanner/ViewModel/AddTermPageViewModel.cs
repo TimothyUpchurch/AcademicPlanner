@@ -46,7 +46,7 @@ namespace AcademicPlanner.ViewModel
                 };
                 await TermService.AddTerm(newTerm);
                 // Send msg to add new term to the Terms observablecollection in the mainpageviewmodel
-                MessagingCenter.Send(newTerm, "AddNew");
+                MessagingCenter.Send(newTerm, "AddTerm");
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
             else

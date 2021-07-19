@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:AcademicPlanner.ViewModel"
+             x:Class="AcademicPlanner.View.AddCoursePage">
+    <ContentPage.BindingContext>
+        <viewModels:AddCoursePageViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+
+        <ScrollView>
+            <StackLayout>
+                <Label x:Name="selectedTermID" IsVisible="False" Text="{Binding TermID, Mode=TwoWay}"/>
+
+                <Entry Placeholder="Course Name" Text="{Binding CourseName}"/>
+
+                <Label Text="Start Date"/>
+                <DatePicker Date="{Binding StartDate, Mode=OneWayToSource}"/>
+
+                <Label Text="End Date"/>
+                <DatePicker Date="{Binding EndDate, Mode=OneWayToSource}"/>
+
+                <Picker Title="Status" SelectedItem="{Binding CourseStatus}">
+                    <Picker.Items>
+                        <x:String>Not Started</x:String>
+                        <x:String>In Progress</x:String>
+                        <x:String>Complete</x:String>
+                    </Picker.Items>
+                </Picker>
+
+                <Entry Placeholder="Course Notes" Text="{Binding CourseNotes}"/>
+
+                <Entry Placeholder="Instructor's Name" Text="{Binding InstructorName}"/>
+                <Entry Placeholder="Instructor's Phone" Keyboard="Telephone" Text="{Binding InstructorPhone}"/>
+                <Entry Placeholder="Instructor's Email" Keyboard="Email" Text="{Binding InstructorEmail}"/>
+                
+                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
+                    <Label Text="Set Course Notifications"/>
+                    <Switch IsToggled="{Binding SetAlerts}"/>
+                </StackLayout>
+
+                <Button Text="Add Course" Command="{Binding AddCourseCommand}"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

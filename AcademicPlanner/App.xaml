@@ -3,6 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AcademicPlanner.App">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <Color x:Key="Primary">#246EE9</Color>
+            <Color x:Key="TextColor">#f3f3f3</Color>
+        </ResourceDictionary>
+        <Style TargetType="NavigationPage">
+            <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource Primary}"></Setter>
+            <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
+            <Setter Property="CornerRadius" Value="10"></Setter>
+            <Setter Property="Padding" Value="25, 20"></Setter>
+            <Setter Property="Margin" Value="45, 0, 45, 10"></Setter>
+        </Style>
     </Application.Resources>
 </Application>

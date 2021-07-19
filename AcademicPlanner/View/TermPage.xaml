@@ -27,7 +27,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="Add Course"/>
+            <Button Text="Add Course" Command="{Binding Navigate}" CommandParameter="{Binding TermID}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

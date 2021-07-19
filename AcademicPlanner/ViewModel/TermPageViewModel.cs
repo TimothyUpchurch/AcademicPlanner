@@ -1,9 +1,11 @@
 ﻿using AcademicPlanner.Model;
 using AcademicPlanner.Services;
+using AcademicPlanner.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -25,20 +27,26 @@ namespace AcademicPlanner.ViewModel
         }
         public TermPageViewModel()
         {
-            Courses.Add(new Course()
+            _ = LoadCourses();
+
+            MessagingCenter.Subscribe<Course>(this, "AddCourse", course =>
             {
-                CourseID = 0,
-                CourseName = "C#",
-                TermID = 1,
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Today.AddDays(7),
-                CourseStatus = "",
-                InstructorName = "Timothy Upchurch",
-                InstructorPhone = "618-210-6687",
-                InstructorEmail = "Timmyupc@gmail.com",
-                CourseNotes = "Creating an application in xamarin forms.",
-                SetAlerts = true
-            }) ;
+                Courses.Add(course);
+            });
+        }
+
+        async Task LoadCourses()
+        {
+            Courses.Clear();
+            var courses = await CourseService.GetCourse();
+            foreach (Course course in courses)
+            {
+                if (course.TermID == Int32.Parse(TermID))
+                {
+                    Courses.Add((Course)course);
+                }
+                
+            }
         }
 
         public ICommand DeleteTermCommand => new Command(DeleteTerm);
@@ -53,5 +61,7 @@ namespace AcademicPlanner.ViewModel
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
         }
+
+        public ICommand Navigate => new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddCoursePage(Int32.Parse(TermID))));
     }
 }
