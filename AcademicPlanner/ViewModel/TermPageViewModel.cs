@@ -44,8 +44,7 @@ namespace AcademicPlanner.ViewModel
                 if (course.TermID == Int32.Parse(TermID))
                 {
                     Courses.Add((Course)course);
-                }
-                
+                }            
             }
         }
 
@@ -58,7 +57,21 @@ namespace AcademicPlanner.ViewModel
                 Term deletedTerm = term as Term;
                 await TermService.RemoveTerm(deletedTerm);
                 MessagingCenter.Send(deletedTerm, "DeleteTerm");
+                DeleteAssociatedCourses(deletedTerm);
                 await Application.Current.MainPage.Navigation.PopAsync();
+            }
+        }
+
+        async void DeleteAssociatedCourses(Term term)
+        {
+            var courses = await CourseService.GetCourse();
+            foreach (Course course in courses)
+            {
+                if (course.TermID == term.TermID)
+                {
+                    // Remove Course
+                    await CourseService.RemoveCourse(course);
+                }
             }
         }
 

@@ -34,5 +34,11 @@ namespace AcademicPlanner.Services
             await Init();
             return await db.Table<Course>().ToListAsync();
         }
+
+        public static async Task RemoveCourse(Course course)
+        {
+            await Init();
+            await db.DeleteAsync(course.CourseID);
+        }
     }
 }
