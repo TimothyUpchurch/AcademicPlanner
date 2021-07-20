@@ -14,15 +14,17 @@
     
     <ContentPage.Content>
         <StackLayout>
-            <Label x:Name="selectedTermName"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <Label x:Name="selectedTermID" Text="{Binding TermID, Mode=TwoWay}" IsVisible="false"/>
+            <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
+                <Label Text="Term Name: " />
+                <Label x:Name="selectedTermName" Text="{Binding TermName, Mode=TwoWay}"/>
+                <Button Text="Edit Term" Style="{StaticResource editButton}" Command="{Binding EditTermCommand}" x:Name="editTerm" />
+            </StackLayout>
+                <Label x:Name="selectedTermID" Text="{Binding TermID, Mode=TwoWay}" IsVisible="false"/>
             <ListView ItemsSource="{Binding Courses}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Label Text="{Binding CourseName}"/>
+                            <Label Text="{Binding CourseName}" IsEnabled="False"/>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

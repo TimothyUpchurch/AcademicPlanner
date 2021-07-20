@@ -17,5 +17,10 @@
             <Setter Property="Padding" Value="25, 20"></Setter>
             <Setter Property="Margin" Value="45, 0, 45, 10"></Setter>
         </Style>
+
+        <Style x:Key="editButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="Transparent"></Setter>
+            <Setter Property="TextColor" Value="{StaticResource Primary}"></Setter>
+        </Style>
     </Application.Resources>
 </Application>

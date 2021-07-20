@@ -25,6 +25,20 @@ namespace AcademicPlanner.ViewModel
                 SetField(ref _termID, value);
             }
         }
+
+        private string _termName;
+        public string TermName
+        {
+            get => _termName;
+            set
+            {
+                SetField(ref _termName, value);
+            }
+        }
+
+        private bool comingFromEditTerm = false;
+        private Term editedTerm = new Term();
+
         public TermPageViewModel()
         {
             _ = LoadCourses();
@@ -32,6 +46,13 @@ namespace AcademicPlanner.ViewModel
             MessagingCenter.Subscribe<Course>(this, "AddCourse", course =>
             {
                 Courses.Add(course);
+            });
+
+            MessagingCenter.Subscribe<Term>(this, "UpdateTerm", term =>
+            {
+                TermName = term.TermName;
+                comingFromEditTerm = true;
+                editedTerm = term;
             });
         }
 
@@ -72,6 +93,23 @@ namespace AcademicPlanner.ViewModel
                     // Remove Course
                     await CourseService.RemoveCourse(course);
                 }
+            }
+        }
+
+        public ICommand EditTermCommand => new Command(EditTerm);
+
+        async void EditTerm(Object term)
+        {
+            // check if navigating back to editTermPage from the TermPage. If so update the object being sent to the term page.
+            if (comingFromEditTerm)
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new EditTermPage(editedTerm));
+                comingFromEditTerm = false;
+            }
+            else
+            {
+                Term editTerm = term as Term;
+                await Application.Current.MainPage.Navigation.PushAsync(new EditTermPage(editTerm));
             }
         }
 

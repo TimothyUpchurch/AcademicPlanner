@@ -11,15 +11,16 @@ using Xamarin.Forms.Xaml;
 namespace AcademicPlanner.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TermPage : ContentPage
+    public partial class EditTermPage : ContentPage
     {
-        public TermPage(Term term)
+        public EditTermPage(Term term)
         {
             InitializeComponent();
-            deleteTermButton.CommandParameter = term;
-            editTerm.CommandParameter = term;
-            selectedTermName.Text = term.TermName;
-            selectedTermID.Text = term.TermID.ToString();
+            // set fields.
+            termID.Text = term.TermID.ToString();
+            termName.Text = term.TermName;
+            startDate.Date = term.TermStart;
+            endDate.Date = term.TermEnd;
         }
     }
 }

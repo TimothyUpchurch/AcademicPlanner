@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:AcademicPlanner.ViewModel"
+             x:Class="AcademicPlanner.View.EditTermPage">
+
+    <ContentPage.BindingContext>
+        <viewModels:EditTermPageViewModel />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding TermID, Mode=TwoWay}" x:Name="termID"/>
+            <Entry x:Name="termName" Placeholder="Term Name" Text="{Binding TermName, Mode=TwoWay}" />
+            <DatePicker x:Name="startDate" Date="{Binding StartDate, Mode=TwoWay}"/>
+            <DatePicker x:Name="endDate" Date="{Binding EndDate, Mode=TwoWay}"/>
+            <Button Text="Update" Command="{Binding UpdateTermCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -27,7 +27,11 @@ namespace AcademicPlanner.ViewModel
             MessagingCenter.Subscribe<Term>(this, "DeleteTerm", term =>
             {
                 Terms.Remove(term);
-                // Delete any course related to this term from the Course table.
+            });
+
+            MessagingCenter.Subscribe<Term>(this, "UpdateTerm", term =>
+            {
+                _ = LoadTerms();
             });
         }
         // demo code
