@@ -76,9 +76,9 @@ namespace AcademicPlanner.ViewModel
             if (term != null && answer)
             {
                 Term deletedTerm = term as Term;
+                DeleteAssociatedCourses(deletedTerm); // delete courses before deleting the term they are associated with
                 await TermService.RemoveTerm(deletedTerm);
                 MessagingCenter.Send(deletedTerm, "DeleteTerm");
-                DeleteAssociatedCourses(deletedTerm);
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
         }

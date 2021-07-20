@@ -24,7 +24,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Label Text="{Binding CourseName}" IsEnabled="False"/>
+                            <Label Text="{Binding CourseName}"/>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

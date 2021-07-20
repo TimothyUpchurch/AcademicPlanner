@@ -38,7 +38,7 @@ namespace AcademicPlanner.Services
         public static async Task RemoveCourse(Course course)
         {
             await Init();
-            await db.DeleteAsync(course.CourseID);
+            await db.DeleteAsync<Course>(course.CourseID);
         }
     }
 }
