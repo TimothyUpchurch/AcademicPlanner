@@ -1,31 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:AcademicPlanner.ViewModel"
              x:Class="AcademicPlanner.View.CoursePage">
 
+    <ContentPage.BindingContext>
+        <viewModels:CoursePageViewModel />
+    </ContentPage.BindingContext>
 
     <NavigationPage.TitleView>
-        <Button Text="Delete" x:Name="deleteCourseButton"/>
+        <Button Text="Delete" x:Name="deleteCourseButton" Command="{Binding DeleteCourseCommand}"/>
     </NavigationPage.TitleView>
 
     <ContentPage.Content>
         <StackLayout>
             <Button Text="Edit Course" Style="{StaticResource editButton}" x:Name="editCourse" />
-            <Label x:Name="courseNameLabel"/>
             
-            <Label x:Name="courseStartDateLabel"/>
-            <Label x:Name="courseEndDateLabel"/>
-            
-            <Label x:Name="courseStatusLabel"/>
-            
-            <Label x:Name="instructorNameLabel"/>
-            <Label x:Name="instructorPhoneLabel"/>
-            <Label x:Name="instructorEmailLabel"/>
+            <Label x:Name="courseNameLabel" Text="{Binding CourseName}"/>
 
-            <Label x:Name="courseNotesLabel"/>
+            <Label x:Name="courseStartDateLabel" Text="{Binding StartDate}"/>
+            <Label x:Name="courseEndDateLabel" Text="{Binding EndDate}"/>
+
+            <Label x:Name="courseStatusLabel" Text="{Binding CourseStatus}"/>
+
+            <Label x:Name="instructorNameLabel" Text="{Binding InstructorName}"/>
+            <Label x:Name="instructorPhoneLabel" Text="{Binding InstructorPhone}"/>
+            <Label x:Name="instructorEmailLabel" Text="{Binding InstructorEmail}"/>
+
+            <Label x:Name="courseNotesLabel" Text="{Binding CourseNotes}"/>
             <Button Text="Share Course Notes"/>
 
-            <Label x:Name="alertsEnabledLabel"/>
+            <Label x:Name="alertsEnabledLabel" Text="{Binding SetAlerts}"/>
 
             <Label Text="Assessment 1"/>
             <Label Text="Assessment 2"/>

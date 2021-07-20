@@ -16,6 +16,9 @@ namespace AcademicPlanner.View
         public CoursePage(Course course)
         {
             InitializeComponent();
+
+            deleteCourseButton.CommandParameter = course;
+
             courseNameLabel.Text = course.CourseName;
             courseStartDateLabel.Text = course.StartDate.ToString();
             courseEndDateLabel.Text = course.EndDate.ToString();
