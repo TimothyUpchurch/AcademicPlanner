@@ -18,9 +18,10 @@
                 <Label Text="Term Name: " />
                 <Label x:Name="selectedTermName" Text="{Binding TermName, Mode=TwoWay}"/>
                 <Button Text="Edit Term" Style="{StaticResource editButton}" Command="{Binding EditTermCommand}" x:Name="editTerm" />
-            </StackLayout>
                 <Label x:Name="selectedTermID" Text="{Binding TermID, Mode=TwoWay}" IsVisible="false"/>
-            <ListView ItemsSource="{Binding Courses}">
+            </StackLayout>
+            
+            <ListView ItemsSource="{Binding Courses}" x:Name="coursesListView" ItemSelected="CourseSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

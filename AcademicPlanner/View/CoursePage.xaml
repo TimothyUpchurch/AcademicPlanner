@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AcademicPlanner.View.CoursePage">
+
+
+    <NavigationPage.TitleView>
+        <Button Text="Delete" x:Name="deleteCourseButton"/>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Button Text="Edit Course" Style="{StaticResource editButton}" x:Name="editCourse" />
+            <Label x:Name="courseNameLabel"/>
+            
+            <Label x:Name="courseStartDateLabel"/>
+            <Label x:Name="courseEndDateLabel"/>
+            
+            <Label x:Name="courseStatusLabel"/>
+            
+            <Label x:Name="instructorNameLabel"/>
+            <Label x:Name="instructorPhoneLabel"/>
+            <Label x:Name="instructorEmailLabel"/>
+
+            <Label x:Name="courseNotesLabel"/>
+            <Button Text="Share Course Notes"/>
+
+            <Label x:Name="alertsEnabledLabel"/>
+
+            <Label Text="Assessment 1"/>
+            <Label Text="Assessment 2"/>
+            <Button Text="Add Assessment"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

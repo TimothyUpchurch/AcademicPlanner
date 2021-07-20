@@ -21,5 +21,13 @@ namespace AcademicPlanner.View
             selectedTermName.Text = term.TermName;
             selectedTermID.Text = term.TermID.ToString();
         }
+
+        async void CourseSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            Course course = (Course)e.SelectedItem;
+            if (course == null) return;
+            await Navigation.PushAsync(new CoursePage(course));
+            coursesListView.SelectedItem = null;
+        }
     }
 }

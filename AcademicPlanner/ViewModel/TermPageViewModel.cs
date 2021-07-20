@@ -50,9 +50,10 @@ namespace AcademicPlanner.ViewModel
 
             MessagingCenter.Subscribe<Term>(this, "UpdateTerm", term =>
             {
-                TermName = term.TermName;
-                comingFromEditTerm = true;
-                editedTerm = term;
+                //TermName = term.TermName;
+                //comingFromEditTerm = true;
+                //editedTerm = term;
+                _ = LoadCourses();
             });
         }
 
