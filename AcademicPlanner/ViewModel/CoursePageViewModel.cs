@@ -3,7 +3,9 @@ using AcademicPlanner.Services;
 using AcademicPlanner.View;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -12,6 +14,15 @@ namespace AcademicPlanner.ViewModel
     class CoursePageViewModel : BaseViewModel
     {
         // add course information properties and bind to the UI
+        private string _courseID;
+        public string CourseID
+        {
+            get => _courseID;
+            set
+            {
+                SetField(ref _courseID, value);
+            }
+        }
         private string _courseName;
         public string CourseName
         {
@@ -119,7 +130,38 @@ namespace AcademicPlanner.ViewModel
             Course updateCourse = course as Course;
             await Application.Current.MainPage.Navigation.PushAsync(new EditCoursePage(updateCourse));
         }
+
+        public ICommand AddAssessmentCommand => new Command(AddAssessment);
+        async void AddAssessment()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new AddAssessmentPage(Int32.Parse(CourseID)));
+        }
+
         // Create an observablecollection to store assessments and set the binding to a listview in the ui
+        public ObservableCollection<Assessment> AssessmentCollection { get; set; } = new ObservableCollection<Assessment>();
+
+        public CoursePageViewModel()
+        {
+            _ = LoadAssessments();
+
+            MessagingCenter.Subscribe<Assessment>(this, "AddAssessment", assessment =>
+            {
+                AssessmentCollection.Add(assessment);
+            });
+        }
+        async Task LoadAssessments()
+        {
+            AssessmentCollection.Clear();
+            var assessments = await AssessmentService.GetAssessment();
+            foreach (Assessment assessment in assessments)
+            {
+                if (assessment.CourseID == Int32.Parse(CourseID))
+                {
+                    AssessmentCollection.Add(assessment);
+                }
+            }
+        }
+        public static Assessment SelectedAssessment { get; set; } = new Assessment();
         // await Application.Current.MainPage.Navigation.PushAsync(new EditCoursePage(course))
     }
 }

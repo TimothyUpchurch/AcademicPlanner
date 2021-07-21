@@ -20,6 +20,7 @@ namespace AcademicPlanner.View
             deleteCourseButton.CommandParameter = course;
             editCourseButton.CommandParameter = course;
 
+            courseID.Text = course.CourseID.ToString();
             courseNameLabel.Text = course.CourseName;
             courseStartDateLabel.Text = course.StartDate.ToString();
             courseEndDateLabel.Text = course.EndDate.ToString();

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:AcademicPlanner.ViewModel"
+             x:Class="AcademicPlanner.View.AddAssessmentPage">
+
+    <ContentPage.BindingContext>
+        <viewModels:AddAssessmentPageViewModel />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <Label x:Name="courseIDLabel" IsVisible="False" Text="{Binding CourseID, Mode=TwoWay}"/>
+            <Label Text="Add Assessment" VerticalOptions="Center"/>
+
+            <Entry Placeholder="Assessment Name" Text="{Binding AssessmentName}"/>
+            <Label Text="Assessment Type"/>
+            <Picker SelectedItem="{Binding AssessmentType}">
+                <Picker.Items>
+                    <x:String>
+                        Performance Assessment
+                    </x:String>
+                    <x:String>
+                        Objective Assessment
+                    </x:String>
+                </Picker.Items>
+            </Picker>
+            
+            <Label Text="Start Date"/>
+            <DatePicker Date="{Binding StartDate, Mode=OneWayToSource}" />
+
+            <Label Text="End Date"/>
+            <DatePicker Date="{Binding EndDate, Mode=OneWayToSource}" />
+
+            <Button Text="Add Assessment" VerticalOptions="EndAndExpand" Command="{Binding AddAssessmentCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

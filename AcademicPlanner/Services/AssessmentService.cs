@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,12 @@ namespace AcademicPlanner.Services
         {
             await Init();
             await db.InsertAsync(assessment);
+        }
+
+        public static async Task<IEnumerable<Assessment>> GetAssessment()
+        {
+            await Init();
+            return await db.Table<Assessment>().ToListAsync();
         }
     }
 }

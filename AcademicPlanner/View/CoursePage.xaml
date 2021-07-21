@@ -16,7 +16,8 @@
         <StackLayout>
 
             <Button Text="Edit Course" Style="{StaticResource editButton}" x:Name="editCourseButton" Command="{Binding UpdateCourseCommand}"/>
-            
+
+            <Label x:Name="courseID" Text="{Binding CourseID, Mode=TwoWay}" IsVisible="False"/>
             <Label x:Name="courseNameLabel" Text="{Binding CourseName}"/>
 
             <Label x:Name="courseStartDateLabel" Text="{Binding StartDate}"/>
@@ -33,9 +34,22 @@
 
             <Label x:Name="alertsEnabledLabel" Text="{Binding SetAlerts}"/>
 
-            <Label Text="Assessment 1"/>
-            <Label Text="Assessment 2"/>
-            <Button Text="Add Assessment"/>
+            <Label Text="Assessments" HorizontalOptions="Center"/>
+            
+            <ListView ItemsSource="{Binding AssessmentCollection}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label Text="{Binding CourseID}"/>
+                                <Label Text="{Binding AssessmentName}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <Button Text="Add Assessment" Command="{Binding AddAssessmentCommand}" VerticalOptions="EndAndExpand"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
