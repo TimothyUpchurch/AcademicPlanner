@@ -9,9 +9,28 @@ using Xamarin.Forms;
 
 namespace AcademicPlanner.ViewModel
 {
-    class CoursePageViewModel : BaseViewModel
+    class EditCoursePageViewModel : BaseViewModel
     {
-        // add course information properties and bind to the UI
+        private string _courseID;
+        public string CourseID
+        {
+            get => _courseID;
+            set
+            {
+                SetField(ref _courseID, value);
+            }
+        }
+
+        private string _termID;
+        public string TermID
+        {
+            get => _termID;
+            set
+            {
+                SetField(ref _termID, value);
+            }
+        }
+
         private string _courseName;
         public string CourseName
         {
@@ -52,6 +71,16 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
+        private string _courseNotes;
+        public string CourseNotes
+        {
+            get => _courseNotes;
+            set
+            {
+                SetField(ref _courseNotes, value);
+            }
+        }
+
         private string _instructorName;
         public string InstructorName
         {
@@ -82,16 +111,6 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
-        private string _courseNotes;
-        public string CourseNotes
-        {
-            get => _courseNotes;
-            set
-            {
-                SetField(ref _courseNotes, value);
-            }
-        }
-
         private bool _setAlerts;
         public bool SetAlerts
         {
@@ -102,24 +121,26 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
-
-        public ICommand DeleteCourseCommand => new Command(DeleteCourse);
-        async void DeleteCourse(Object course)
+        public ICommand UpdateCourseCommand => new Command(UpdateCourse);
+        async void UpdateCourse()
         {
-            Course deleteCourse = course as Course;
-            await CourseService.RemoveCourse(deleteCourse);
+            Course course = new Course
+            {
+                CourseID = Int32.Parse(CourseID),
+                TermID = Int32.Parse(TermID),
+                CourseName = CourseName,
+                StartDate = StartDate,
+                EndDate = EndDate,
+                CourseStatus = CourseStatus,
+                CourseNotes = CourseNotes,
+                InstructorName = InstructorName,
+                InstructorPhone = InstructorPhone,
+                InstructorEmail = InstructorEmail,
+                SetAlerts = SetAlerts
+            };
+            await CourseService.UpdateCourse(course);
 
-            // after deleting course navigate back to mainpage
             await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
         }
-
-        public ICommand UpdateCourseCommand => new Command(UpdateCourse);
-        async void UpdateCourse(Object course)
-        {
-            Course updateCourse = course as Course;
-            await Application.Current.MainPage.Navigation.PushAsync(new EditCoursePage(updateCourse));
-        }
-        // Create an observablecollection to store assessments and set the binding to a listview in the ui
-        // await Application.Current.MainPage.Navigation.PushAsync(new EditCoursePage(course))
     }
 }

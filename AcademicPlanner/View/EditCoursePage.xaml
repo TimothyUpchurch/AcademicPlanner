@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:AcademicPlanner.ViewModel"
+             x:Class="AcademicPlanner.View.EditCoursePage">
+
+    <ContentPage.BindingContext>
+        <viewModels:EditCoursePageViewModel />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout>
+
+            <Label x:Name="selectedCourseID" IsVisible="False" Text="{Binding CourseID, Mode=TwoWay}"/>
+            <Label x:Name="selectedTermID" IsVisible="False" Text="{Binding TermID, Mode=TwoWay}"/>
+
+            <Entry Placeholder="Course Name" Text="{Binding CourseName}" x:Name="courseName"/>
+
+            <Label Text="Start Date"/>
+            <DatePicker Date="{Binding StartDate, Mode=OneWayToSource}" x:Name="startDate"/>
+
+            <Label Text="End Date"/>
+            <DatePicker Date="{Binding EndDate, Mode=OneWayToSource}" x:Name="endDate"/>
+
+            <Picker Title="Status" SelectedItem="{Binding CourseStatus}" x:Name="status">
+                <Picker.Items>
+                    <x:String>Not Started</x:String>
+                    <x:String>In Progress</x:String>
+                    <x:String>Complete</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Entry Placeholder="Course Notes" Text="{Binding CourseNotes}" x:Name="courseNotes"/>
+
+            <Entry Placeholder="Instructor's Name" Text="{Binding InstructorName}" x:Name="instructorName"/>
+            <Entry Placeholder="Instructor's Phone" Keyboard="Telephone" Text="{Binding InstructorPhone}" x:Name="instructorPhone"/>
+            <Entry Placeholder="Instructor's Email" Keyboard="Email" Text="{Binding InstructorEmail}" x:Name="instructorEmail"/>
+
+            <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
+                <Label Text="Set Course Notifications"/>
+                <Switch IsToggled="{Binding SetAlerts}" x:Name="setAlerts"/>
+            </StackLayout>
+
+            <Button Text="Update Course" Command="{Binding UpdateCourseCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

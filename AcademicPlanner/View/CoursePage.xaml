@@ -14,7 +14,8 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <Button Text="Edit Course" Style="{StaticResource editButton}" x:Name="editCourse" />
+
+            <Button Text="Edit Course" Style="{StaticResource editButton}" x:Name="editCourseButton" Command="{Binding UpdateCourseCommand}"/>
             
             <Label x:Name="courseNameLabel" Text="{Binding CourseName}"/>
 
