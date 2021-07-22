@@ -39,5 +39,11 @@ namespace AcademicPlanner.Services
             await Init();
             await db.DeleteAsync<Assessment>(assessment.AssessmentID);
         }
+
+        public static async Task UpdateAssessment(Assessment assessment)
+        {
+            await Init();
+            await db.UpdateAsync(assessment);
+        }
     }
 }

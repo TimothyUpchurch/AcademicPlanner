@@ -15,10 +15,14 @@
     <ContentPage.Content>
         <StackLayout>
             <Button Text="Edit Assessment" Style="{StaticResource editButton}"/>
-            <Label x:Name="assessmentNameLabel" Text="{Binding AssessmentName}"/>
-            <Label x:Name="assessmentTypeLabel" Text="{Binding AssessmentType}"/>
-            <Label x:Name="startDate" Text="{Binding StartDate}"/>
-            <Label x:Name="endDate" Text="{Binding EndDate}"/>
+            <Label x:Name="assessmentIDLabel" IsVisible="False" Text="{Binding AssessmentID, Mode=TwoWay}"/>
+            <Label x:Name="courseIDLabel" IsVisible="False" Text="{Binding CourseID, Mode=TwoWay}"/>
+            <Entry x:Name="assessmentNameLabel" Text="{Binding AssessmentName}"/>
+            <Entry x:Name="assessmentTypeLabel" Text="{Binding AssessmentType}"/>
+            <DatePicker x:Name="startDate" Date="{Binding StartDate}"/>
+            <DatePicker x:Name="endDate" Date="{Binding EndDate}"/>
+
+            <Button Text="Update Term" Command="{Binding EditAssessmentCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

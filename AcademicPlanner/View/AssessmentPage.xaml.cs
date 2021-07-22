@@ -20,10 +20,12 @@ namespace AcademicPlanner.View
 
             deleteAssessmentButton.CommandParameter = assessment;
 
+            assessmentIDLabel.Text = assessment.AssessmentID.ToString();
+            courseIDLabel.Text = assessment.CourseID.ToString();
             assessmentNameLabel.Text = assessment.AssessmentName;
             assessmentTypeLabel.Text = assessment.AssessmentType;
-            startDate.Text = assessment.StartDate.ToString();
-            endDate.Text = assessment.EndDate.ToString();
+            startDate.Date = assessment.StartDate;
+            endDate.Date = assessment.EndDate;
         }
     }
 }

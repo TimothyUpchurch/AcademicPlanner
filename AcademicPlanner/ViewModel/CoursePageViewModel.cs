@@ -168,6 +168,17 @@ namespace AcademicPlanner.ViewModel
             {
                 AssessmentCollection.Remove(assessment);
             });
+
+            MessagingCenter.Subscribe<Assessment>(this, "UpdateAssessment", assessment =>
+            {
+                for(int i = 0; i < AssessmentCollection.Count; i++)
+                {
+                    if (AssessmentCollection[i].AssessmentID == assessment.AssessmentID)
+                    {
+                        AssessmentCollection[i] = assessment;
+                    }
+                }
+            });
         }
         async Task LoadAssessments()
         {
