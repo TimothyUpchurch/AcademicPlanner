@@ -68,7 +68,8 @@ namespace AcademicPlanner.ViewModel
 
             // navigate popstack
             //await Application.Current.MainPage.Navigation.PopAsync();
-            await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
+            //await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
+            await Application.Current.MainPage.Navigation.PopToRootAsync();
         }
     }
 }

@@ -35,8 +35,8 @@
             <Label x:Name="alertsEnabledLabel" Text="{Binding SetAlerts}"/>
 
             <Label Text="Assessments" HorizontalOptions="Center"/>
-            
-            <ListView ItemsSource="{Binding AssessmentCollection}">
+
+            <ListView ItemsSource="{Binding AssessmentCollection}" SelectedItem="{Binding SelectedAssessment, Mode=OneWayToSource}" x:Name="assessmentListView">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

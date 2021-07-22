@@ -17,6 +17,8 @@ namespace AcademicPlanner.View
         {
             InitializeComponent();
 
+            OnAppearing();
+
             deleteCourseButton.CommandParameter = course;
             editCourseButton.CommandParameter = course;
 
@@ -33,6 +35,14 @@ namespace AcademicPlanner.View
 
             courseNotesLabel.Text = course.CourseNotes;
             alertsEnabledLabel.Text = "Alerts Enabled: "  + course.SetAlerts.ToString();
+        }
+        protected override void OnAppearing()
+        {
+            // resets the selected item
+            if (assessmentListView.SelectedItem != null)
+            {
+                assessmentListView.SelectedItem = null;
+            }
         }
     }
 }

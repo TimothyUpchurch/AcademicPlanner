@@ -113,6 +113,22 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
+        private Assessment _selectedAssessment = new Assessment();
+        public Assessment SelectedAssessment
+        {
+            get => _selectedAssessment;
+            set
+            {
+                SetField(ref _selectedAssessment, value);
+
+                // Navigate to AssessmentPage and pass the selected assessment
+                if (SelectedAssessment != null)
+                {
+                    Console.WriteLine(SelectedAssessment.AssessmentName);
+                    Application.Current.MainPage.Navigation.PushAsync(new AssessmentPage(SelectedAssessment));
+                }
+            }
+        }
 
         public ICommand DeleteCourseCommand => new Command(DeleteCourse);
         async void DeleteCourse(Object course)
@@ -161,7 +177,7 @@ namespace AcademicPlanner.ViewModel
                 }
             }
         }
-        public static Assessment SelectedAssessment { get; set; } = new Assessment();
+        //public static Assessment SelectedAssessment { get; set; } = new Assessment();
         // await Application.Current.MainPage.Navigation.PushAsync(new EditCoursePage(course))
     }
 }

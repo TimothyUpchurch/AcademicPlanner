@@ -140,7 +140,8 @@ namespace AcademicPlanner.ViewModel
             };
             await CourseService.UpdateCourse(course);
 
-            await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
+            //await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
+            await Application.Current.MainPage.Navigation.PopToRootAsync();
         }
     }
 }
