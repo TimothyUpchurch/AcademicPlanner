@@ -16,6 +16,10 @@ namespace AcademicPlanner.View
         public AssessmentPage(Assessment assessment)
         {
             InitializeComponent();
+            //BindingContext = assessment;
+
+            deleteAssessmentButton.CommandParameter = assessment;
+
             assessmentNameLabel.Text = assessment.AssessmentName;
             assessmentTypeLabel.Text = assessment.AssessmentType;
             startDate.Text = assessment.StartDate.ToString();

@@ -124,7 +124,6 @@ namespace AcademicPlanner.ViewModel
                 // Navigate to AssessmentPage and pass the selected assessment
                 if (SelectedAssessment != null)
                 {
-                    Console.WriteLine(SelectedAssessment.AssessmentName);
                     Application.Current.MainPage.Navigation.PushAsync(new AssessmentPage(SelectedAssessment));
                 }
             }
@@ -163,6 +162,11 @@ namespace AcademicPlanner.ViewModel
             MessagingCenter.Subscribe<Assessment>(this, "AddAssessment", assessment =>
             {
                 AssessmentCollection.Add(assessment);
+            });
+
+            MessagingCenter.Subscribe<Assessment>(this, "DeleteAssessment", assessment => 
+            {
+                AssessmentCollection.Remove(assessment);
             });
         }
         async Task LoadAssessments()

@@ -33,5 +33,11 @@ namespace AcademicPlanner.Services
             await Init();
             return await db.Table<Assessment>().ToListAsync();
         }
+
+        public static async Task RemoveAssessment(Assessment assessment)
+        {
+            await Init();
+            await db.DeleteAsync<Assessment>(assessment.AssessmentID);
+        }
     }
 }

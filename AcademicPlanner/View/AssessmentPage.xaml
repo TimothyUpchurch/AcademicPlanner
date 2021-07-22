@@ -1,13 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:AcademicPlanner.ViewModel"
              x:Class="AcademicPlanner.View.AssessmentPage">
+
+    <ContentPage.BindingContext>
+        <viewModels:AssessmentPageViewModel />
+    </ContentPage.BindingContext>
+    
+    <NavigationPage.TitleView>
+        <Button Text="Delete" x:Name="deleteAssessmentButton" Command="{Binding DeleteAssessmentCommand}"/>
+    </NavigationPage.TitleView>
+
     <ContentPage.Content>
         <StackLayout>
-            <Label x:Name="assessmentNameLabel" />
-            <Label x:Name="assessmentTypeLabel" />
-            <Label x:Name="startDate" />
-            <Label x:Name="endDate" />
+            <Button Text="Edit Assessment" Style="{StaticResource editButton}"/>
+            <Label x:Name="assessmentNameLabel" Text="{Binding AssessmentName}"/>
+            <Label x:Name="assessmentTypeLabel" Text="{Binding AssessmentType}"/>
+            <Label x:Name="startDate" Text="{Binding StartDate}"/>
+            <Label x:Name="endDate" Text="{Binding EndDate}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
