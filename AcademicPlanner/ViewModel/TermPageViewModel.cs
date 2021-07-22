@@ -55,6 +55,10 @@ namespace AcademicPlanner.ViewModel
                 //editedTerm = term;
                 _ = LoadCourses();
             });
+            MessagingCenter.Subscribe<Course>(this, "DeleteCourse", course =>
+            {
+                Courses.Remove(course);
+            });
         }
 
         async Task LoadCourses()

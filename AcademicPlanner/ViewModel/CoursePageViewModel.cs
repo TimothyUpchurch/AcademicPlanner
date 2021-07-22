@@ -133,10 +133,29 @@ namespace AcademicPlanner.ViewModel
         async void DeleteCourse(Object course)
         {
             Course deleteCourse = course as Course;
+
+            // delete associated Assessments
+            DeleteAssociatedAssessments(deleteCourse);
+
             await CourseService.RemoveCourse(deleteCourse);
 
-            // after deleting course navigate back to mainpage
-            await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
+            MessagingCenter.Send(deleteCourse, "DeleteCourse");
+            //await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
+            await Application.Current.MainPage.Navigation.PopAsync();
+
+            // after deleting course navigate back to the previous page (termpage) set the previously selected term to null and refresh listview.
+        }
+
+        async void DeleteAssociatedAssessments(Course course)
+        {
+            var assessments = await AssessmentService.GetAssessment();
+            foreach (Assessment assessment in assessments)
+            {
+                if (assessment.CourseID == course.CourseID)
+                {
+                    await AssessmentService.RemoveAssessment(assessment);
+                }
+            }
         }
 
         public ICommand UpdateCourseCommand => new Command(UpdateCourse);
