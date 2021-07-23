@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plugin.LocalNotifications;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -19,6 +20,18 @@ namespace AcademicPlanner.ViewModel
             field = value;
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        protected void SetNotifications(bool setAlerts, string title, string body, int id, DateTime whenToNotify)
+        {
+            if (setAlerts)
+            {
+                CrossLocalNotifications.Current.Show(title, body, id, whenToNotify);
+            }
+            else
+            {
+                CrossLocalNotifications.Current.Cancel(id);
+            }
         }
     }
 }

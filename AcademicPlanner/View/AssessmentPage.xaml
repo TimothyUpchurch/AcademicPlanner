@@ -17,12 +17,14 @@
             <Button Text="Edit Assessment" Style="{StaticResource editButton}"/>
             <Label x:Name="assessmentIDLabel" IsVisible="False" Text="{Binding AssessmentID, Mode=TwoWay}"/>
             <Label x:Name="courseIDLabel" IsVisible="False" Text="{Binding CourseID, Mode=TwoWay}"/>
+            <Label x:Name="previousEndDate" IsVisible="False" Text="{Binding PreviousEndDate, Mode=TwoWay}"/>
+            
             <Entry x:Name="assessmentNameLabel" Text="{Binding AssessmentName}"/>
             <Entry x:Name="assessmentTypeLabel" Text="{Binding AssessmentType}"/>
-            <DatePicker x:Name="startDate" Date="{Binding StartDate}"/>
-            <DatePicker x:Name="endDate" Date="{Binding EndDate}"/>
+            <DatePicker x:Name="startDate" Date="{Binding StartDate, Mode=Default}"/>
+            <DatePicker x:Name="endDate" Date="{Binding EndDate, Mode=Default}"/>
 
-            <Button Text="Update Term" Command="{Binding EditAssessmentCommand}"/>
+            <Button Text="Update Assessment" Command="{Binding EditAssessmentCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

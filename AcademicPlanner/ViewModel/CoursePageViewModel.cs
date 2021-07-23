@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 namespace AcademicPlanner.ViewModel
 {
@@ -170,6 +171,31 @@ namespace AcademicPlanner.ViewModel
         {
             await Application.Current.MainPage.Navigation.PushAsync(new AddAssessmentPage(Int32.Parse(CourseID)));
         }
+
+        public ICommand ShareCourseNotesCommand => new Command(ShareCourseNotes);
+        async void ShareCourseNotes()
+        {
+            try
+            {
+                var message = new EmailMessage
+                {
+                    Subject = $"Course Notes For {CourseName}",
+                    Body = CourseNotes,
+                    To = { "Timmyupc@gmail.com" }
+                };
+                await Email.ComposeAsync(message);
+                await Application.Current.MainPage.DisplayAlert("Success", "Message sent successfully", "Cancel");
+            }
+            catch (FeatureNotSupportedException fbsEx)
+            {
+                // Email is not supported on this device
+            }
+            catch (Exception ex)
+            {
+                // Some other exception occurred
+            }
+        }
+
 
         // Create an observablecollection to store assessments and set the binding to a listview in the ui
         public ObservableCollection<Assessment> AssessmentCollection { get; set; } = new ObservableCollection<Assessment>();

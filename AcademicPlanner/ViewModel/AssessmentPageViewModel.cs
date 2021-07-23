@@ -71,6 +71,16 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
+        private DateTime _previousEndDate;
+        public DateTime PreviousEndDate
+        {
+            get => _previousEndDate;
+            set
+            {
+                SetField(ref _previousEndDate, value);
+            }
+        }
+
 
         public ICommand DeleteAssessmentCommand => new Command(DeleteAssessment);
         async void DeleteAssessment(Object assessment)
@@ -96,8 +106,13 @@ namespace AcademicPlanner.ViewModel
                 EndDate = EndDate
             };
 
-            await AssessmentService.UpdateAssessment(assessment);
+            if (PreviousEndDate != assessment.EndDate)
+            {
+                //If the end date was updated send out a new notification.
+                SetNotifications(true, AssessmentName, $"{AssessmentName} ends on {EndDate}", 4, DateTime.Now.AddSeconds(5));
+            }
 
+            await AssessmentService.UpdateAssessment(assessment);
             MessagingCenter.Send(assessment, "UpdateAssessment");
 
             await Application.Current.MainPage.Navigation.PopAsync();

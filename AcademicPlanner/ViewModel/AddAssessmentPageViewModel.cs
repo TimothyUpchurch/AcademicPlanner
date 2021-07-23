@@ -75,6 +75,8 @@ namespace AcademicPlanner.ViewModel
             };
             await AssessmentService.AddAssessment(assessment);
 
+            SetNotifications(true, AssessmentName, $"{AssessmentName} ends on {EndDate}", 3, DateTime.Now.AddSeconds(5));
+
             //send msg to update coursepageviewmodel assessment collection.
             MessagingCenter.Send(assessment, "AddAssessment");
 

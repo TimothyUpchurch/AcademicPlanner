@@ -140,6 +140,9 @@ namespace AcademicPlanner.ViewModel
             };
             await CourseService.AddCourse(course);
 
+            SetNotifications(SetAlerts, CourseName, $"{CourseName} starts on {StartDate}", 1, DateTime.Now.AddSeconds(10));
+            SetNotifications(SetAlerts, CourseName, $"{CourseName} ends on {EndDate}", 2, DateTime.Now.AddSeconds(20));
+
             // send message to termpageviewmodel to subscribe to the changes made here. // "AddCourse"
             MessagingCenter.Send(course, "AddCourse");
             await Application.Current.MainPage.Navigation.PopAsync();

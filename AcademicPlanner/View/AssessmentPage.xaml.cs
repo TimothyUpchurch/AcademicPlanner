@@ -22,6 +22,8 @@ namespace AcademicPlanner.View
 
             assessmentIDLabel.Text = assessment.AssessmentID.ToString();
             courseIDLabel.Text = assessment.CourseID.ToString();
+            previousEndDate.Text = assessment.EndDate.ToString();
+
             assessmentNameLabel.Text = assessment.AssessmentName;
             assessmentTypeLabel.Text = assessment.AssessmentType;
             startDate.Date = assessment.StartDate;

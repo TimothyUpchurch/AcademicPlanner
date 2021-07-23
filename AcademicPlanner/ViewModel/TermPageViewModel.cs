@@ -36,9 +36,6 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
-        private bool comingFromEditTerm = false;
-        private Term editedTerm = new Term();
-
         public TermPageViewModel()
         {
             _ = LoadCourses();
@@ -51,8 +48,6 @@ namespace AcademicPlanner.ViewModel
             MessagingCenter.Subscribe<Term>(this, "UpdateTerm", term =>
             {
                 //TermName = term.TermName;
-                //comingFromEditTerm = true;
-                //editedTerm = term;
                 _ = LoadCourses();
             });
             MessagingCenter.Subscribe<Course>(this, "DeleteCourse", course =>
@@ -105,17 +100,8 @@ namespace AcademicPlanner.ViewModel
 
         async void EditTerm(Object term)
         {
-            // check if navigating back to editTermPage from the TermPage. If so update the object being sent to the term page.
-            if (comingFromEditTerm)
-            {
-                await Application.Current.MainPage.Navigation.PushAsync(new EditTermPage(editedTerm));
-                comingFromEditTerm = false;
-            }
-            else
-            {
-                Term editTerm = term as Term;
-                await Application.Current.MainPage.Navigation.PushAsync(new EditTermPage(editTerm));
-            }
+            Term editTerm = term as Term;
+            await Application.Current.MainPage.Navigation.PushAsync(new EditTermPage(editTerm));
         }
 
         public ICommand Navigate => new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddCoursePage(Int32.Parse(TermID))));

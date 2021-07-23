@@ -18,7 +18,7 @@
             <Button Text="Edit Course" Style="{StaticResource editButton}" x:Name="editCourseButton" Command="{Binding UpdateCourseCommand}"/>
 
             <Label x:Name="courseID" Text="{Binding CourseID, Mode=TwoWay}" IsVisible="False"/>
-            <Label x:Name="courseNameLabel" Text="{Binding CourseName}"/>
+            <Label x:Name="courseNameLabel" Text="{Binding CourseName, Mode=TwoWay}"/>
 
             <Label x:Name="courseStartDateLabel" Text="{Binding StartDate}"/>
             <Label x:Name="courseEndDateLabel" Text="{Binding EndDate}"/>
@@ -29,8 +29,8 @@
             <Label x:Name="instructorPhoneLabel" Text="{Binding InstructorPhone}"/>
             <Label x:Name="instructorEmailLabel" Text="{Binding InstructorEmail}"/>
 
-            <Label x:Name="courseNotesLabel" Text="{Binding CourseNotes}"/>
-            <Button Text="Share Course Notes"/>
+            <Label x:Name="courseNotesLabel" Text="{Binding CourseNotes, Mode=TwoWay}"/>
+            <Button Text="Share Course Notes" Command="{Binding ShareCourseNotesCommand}"/>
 
             <Label x:Name="alertsEnabledLabel" Text="{Binding SetAlerts}"/>
 
