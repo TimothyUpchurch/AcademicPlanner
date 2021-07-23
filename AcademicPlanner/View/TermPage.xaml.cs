@@ -16,10 +16,13 @@ namespace AcademicPlanner.View
         public TermPage(Term term)
         {
             InitializeComponent();
-            deleteTermButton.CommandParameter = term;
-            editTerm.CommandParameter = term;
+            //deleteTermButton.CommandParameter = term;
+            //editTerm.CommandParameter = term;
             selectedTermName.Text = term.TermName;
             selectedTermID.Text = term.TermID.ToString();
+
+            selectedTermStart.Text = term.TermStart.ToString();
+            selectedTermEnd.Text = term.TermEnd.ToString();
         }
 
         async void CourseSelected(object sender, SelectedItemChangedEventArgs e)

@@ -17,8 +17,11 @@
             <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
                 <Label Text="Term Name: " />
                 <Label x:Name="selectedTermName" Text="{Binding TermName, Mode=TwoWay}"/>
-                <Button Text="Edit Term" Style="{StaticResource editButton}" Command="{Binding EditTermCommand}" x:Name="editTerm" />
+                <Button Text="Edit Term" Style="{StaticResource editButton}" Command="{Binding EditTermCommand}" x:Name="editTerm"/>
                 <Label x:Name="selectedTermID" Text="{Binding TermID, Mode=TwoWay}" IsVisible="false"/>
+                
+                <Label x:Name="selectedTermStart" IsVisible="false" Text="{Binding StartDate, Mode=TwoWay}"/>
+                <Label x:Name="selectedTermEnd" IsVisible="false" Text="{Binding EndDate, Mode=TwoWay}"/>
             </StackLayout>
             
             <ListView ItemsSource="{Binding Courses}" x:Name="coursesListView" ItemSelected="CourseSelected">

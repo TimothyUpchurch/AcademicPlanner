@@ -36,6 +36,26 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
+        private DateTime _startDate;
+        public DateTime StartDate
+        {
+            get => _startDate;
+            set
+            {
+                SetField(ref _startDate, value);
+            }
+        }
+
+        private DateTime _endDate;
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set
+            {
+                SetField(ref _endDate, value);
+            }
+        }
+
         public TermPageViewModel()
         {
             _ = LoadCourses();
@@ -47,8 +67,10 @@ namespace AcademicPlanner.ViewModel
 
             MessagingCenter.Subscribe<Term>(this, "UpdateTerm", term =>
             {
-                //TermName = term.TermName;
-                _ = LoadCourses();
+                TermID = term.TermID.ToString();
+                TermName = term.TermName;
+                StartDate = term.TermStart;
+                EndDate = term.TermEnd;
             });
             MessagingCenter.Subscribe<Course>(this, "DeleteCourse", course =>
             {
@@ -70,25 +92,25 @@ namespace AcademicPlanner.ViewModel
         }
 
         public ICommand DeleteTermCommand => new Command(DeleteTerm);
-        async void DeleteTerm(Object term)
+        async void DeleteTerm()
         {
             bool answer = await Application.Current.MainPage.DisplayAlert("Delete", "Are You Sure You Want To Delete This Term?", "Yes", "No");
-            if (term != null && answer)
+            if (TermID != null && answer)
             {
-                Term deletedTerm = term as Term;
-                DeleteAssociatedCourses(deletedTerm); // delete courses before deleting the term they are associated with
-                await TermService.RemoveTerm(deletedTerm);
-                MessagingCenter.Send(deletedTerm, "DeleteTerm");
+                //Term deletedTerm = term as Term;
+                DeleteAssociatedCourses(Int32.Parse(TermID)); // delete courses before deleting the term they are associated with
+                await TermService.RemoveTerm(Int32.Parse(TermID));
+                MessagingCenter.Send(TermID, "DeleteTerm");
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
         }
 
-        async void DeleteAssociatedCourses(Term term)
+        async void DeleteAssociatedCourses(int termID)
         {
             var courses = await CourseService.GetCourse();
             foreach (Course course in courses)
             {
-                if (course.TermID == term.TermID)
+                if (course.TermID == termID)
                 {
                     // Remove Course
                     await CourseService.RemoveCourse(course);
@@ -98,9 +120,18 @@ namespace AcademicPlanner.ViewModel
 
         public ICommand EditTermCommand => new Command(EditTerm);
 
-        async void EditTerm(Object term)
+        //Object term
+        async void EditTerm()
         {
-            Term editTerm = term as Term;
+            //Term editTerm = term as Term;
+
+            Term editTerm = new Term()
+            {
+                TermID = Int32.Parse(TermID),
+                TermName = TermName,
+                TermStart = StartDate,
+                TermEnd = EndDate
+            };
             await Application.Current.MainPage.Navigation.PushAsync(new EditTermPage(editTerm));
         }
 

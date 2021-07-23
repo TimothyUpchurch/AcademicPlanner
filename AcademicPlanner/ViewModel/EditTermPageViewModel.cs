@@ -64,12 +64,14 @@ namespace AcademicPlanner.ViewModel
             await TermService.UpdateTerm(updateTerm);
 
             // send UpdateTerm msg to the 
-            MessagingCenter.Send(updateTerm,"UpdateTerm");
+            MessagingCenter.Send(updateTerm, "UpdateTerm");
 
             // navigate popstack
-            //await Application.Current.MainPage.Navigation.PopAsync();
+            await Application.Current.MainPage.Navigation.PopAsync();
+
             //await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
-            await Application.Current.MainPage.Navigation.PopToRootAsync();
+            
+            //await Application.Current.MainPage.Navigation.PopToRootAsync();
         }
     }
 }

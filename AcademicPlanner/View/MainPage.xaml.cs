@@ -15,12 +15,17 @@ namespace AcademicPlanner.View
         public MainPage()
         {
             InitializeComponent();
+            OnAppearing();
         }
-        async void TermSelected(object sender, SelectedItemChangedEventArgs e)
+        //async void TermSelected(object sender, SelectedItemChangedEventArgs e)
+        //{
+        //    Term term = (Term)e.SelectedItem;
+        //    if (term == null) return;
+        //    await Navigation.PushAsync(new TermPage(term));
+        //    termsListView.SelectedItem = null;
+        //}
+        protected override void OnAppearing()
         {
-            Term term = (Term)e.SelectedItem;
-            if (term == null) return;
-            await Navigation.PushAsync(new TermPage(term));
             termsListView.SelectedItem = null;
         }
     }

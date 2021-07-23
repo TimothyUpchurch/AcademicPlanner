@@ -10,7 +10,8 @@
 
     <StackLayout>
         <ScrollView>
-            <ListView ItemsSource="{Binding Terms}" x:Name="termsListView" ItemSelected="TermSelected" SeparatorVisibility="Default" HasUnevenRows="False">
+            <!--ItemSelected="TermSelected"-->
+            <ListView ItemsSource="{Binding Terms}" x:Name="termsListView" SeparatorVisibility="Default" HasUnevenRows="False" SelectedItem="{Binding SelectedTerm}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

@@ -13,6 +13,31 @@ namespace AcademicPlanner.ViewModel
 {
     public class MainPageViewModel : BaseViewModel
     {
+
+        private Term _selectedTerm;
+        public Term SelectedTerm
+        {
+            get => _selectedTerm;
+            set
+            {
+                SetField(ref _selectedTerm, value);
+                if (SelectedTerm != null)
+                { 
+                    Application.Current.MainPage.Navigation.PushAsync(new TermPage(SelectedTerm));
+                }
+            }
+        }
+
+        private string _termName;
+        public string TermName
+        {
+            get => _termName;
+            set
+            {
+                SetField(ref _termName, value);
+            }
+        }
+
         public ObservableCollection<Term> Terms { get; set; } = new ObservableCollection<Term>();
         public MainPageViewModel()
         {
@@ -24,14 +49,29 @@ namespace AcademicPlanner.ViewModel
                 Terms.Add(term);
             });
             // subscribe to the msg sent from TermPageViewModel to delete a term from the Terms collection
-            MessagingCenter.Subscribe<Term>(this, "DeleteTerm", term =>
+            MessagingCenter.Subscribe<string>(this, "DeleteTerm", term =>
             {
-                Terms.Remove(term);
+                for(int i = 0; i < Terms.Count; i++)
+                {
+                    if (Terms[i].TermID == Int32.Parse(term))
+                    {
+                        Terms.Remove(Terms[i]);
+                    }
+                }
             });
 
             MessagingCenter.Subscribe<Term>(this, "UpdateTerm", term =>
             {
-                _ = LoadTerms();
+                //_ = LoadTerms();
+                for(int i = 0; i < Terms.Count; i++)
+                {
+                    if (Terms[i].TermID == term.TermID)
+                    {
+                        Terms[i] = term;
+                    }
+                }
+                //SelectedTerm = term;
+                //TermName = SelectedTerm.TermName;
             });
         }
         // demo code
