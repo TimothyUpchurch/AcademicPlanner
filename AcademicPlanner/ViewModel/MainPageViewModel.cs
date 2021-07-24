@@ -49,11 +49,11 @@ namespace AcademicPlanner.ViewModel
                 Terms.Add(term);
             });
             // subscribe to the msg sent from TermPageViewModel to delete a term from the Terms collection
-            MessagingCenter.Subscribe<string>(this, "DeleteTerm", term =>
+            MessagingCenter.Subscribe<string>(this, "DeleteTerm", termID =>
             {
                 for(int i = 0; i < Terms.Count; i++)
                 {
-                    if (Terms[i].TermID == Int32.Parse(term))
+                    if (Terms[i].TermID == Int32.Parse(termID))
                     {
                         Terms.Remove(Terms[i]);
                     }

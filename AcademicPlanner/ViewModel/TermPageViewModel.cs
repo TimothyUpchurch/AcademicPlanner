@@ -72,9 +72,26 @@ namespace AcademicPlanner.ViewModel
                 StartDate = term.TermStart;
                 EndDate = term.TermEnd;
             });
-            MessagingCenter.Subscribe<Course>(this, "DeleteCourse", course =>
+            MessagingCenter.Subscribe<string>(this, "DeleteCourse", course =>
             {
-                Courses.Remove(course);
+                for(int i = 0; i < Courses.Count; i++)
+                {
+                    if (Courses[i].CourseID == Int32.Parse(course))
+                    {
+                        Courses.Remove(Courses[i]);
+                    }
+                }
+            });
+
+            MessagingCenter.Subscribe<Course>(this, "UpdateCourse", course =>
+            {
+                for (int i = 0; i < Courses.Count; i++)
+                {
+                    if (Courses[i].CourseID == course.CourseID)
+                    {
+                        Courses[i] = course;
+                    }
+                }
             });
         }
 
@@ -113,7 +130,7 @@ namespace AcademicPlanner.ViewModel
                 if (course.TermID == termID)
                 {
                     // Remove Course
-                    await CourseService.RemoveCourse(course);
+                    await CourseService.RemoveCourse(course.CourseID);
                 }
             }
         }

@@ -18,21 +18,22 @@
             <Button Text="Edit Course" Style="{StaticResource editButton}" x:Name="editCourseButton" Command="{Binding UpdateCourseCommand}"/>
 
             <Label x:Name="courseID" Text="{Binding CourseID, Mode=TwoWay}" IsVisible="False"/>
+            <Label x:Name="termID" Text="{Binding TermID, Mode=TwoWay}" IsVisible="False"/>
             <Label x:Name="courseNameLabel" Text="{Binding CourseName, Mode=TwoWay}"/>
 
-            <Label x:Name="courseStartDateLabel" Text="{Binding StartDate}"/>
-            <Label x:Name="courseEndDateLabel" Text="{Binding EndDate}"/>
+            <Label x:Name="courseStartDateLabel" Text="{Binding StartDate, Mode=TwoWay}"/>
+            <Label x:Name="courseEndDateLabel" Text="{Binding EndDate, Mode=TwoWay}"/>
 
-            <Label x:Name="courseStatusLabel" Text="{Binding CourseStatus}"/>
+            <Label x:Name="courseStatusLabel" Text="{Binding CourseStatus, Mode=TwoWay}"/>
 
-            <Label x:Name="instructorNameLabel" Text="{Binding InstructorName}"/>
-            <Label x:Name="instructorPhoneLabel" Text="{Binding InstructorPhone}"/>
-            <Label x:Name="instructorEmailLabel" Text="{Binding InstructorEmail}"/>
+            <Label x:Name="instructorNameLabel" Text="{Binding InstructorName, Mode=TwoWay}"/>
+            <Label x:Name="instructorPhoneLabel" Text="{Binding InstructorPhone, Mode=TwoWay}"/>
+            <Label x:Name="instructorEmailLabel" Text="{Binding InstructorEmail, Mode=TwoWay}"/>
 
             <Label x:Name="courseNotesLabel" Text="{Binding CourseNotes, Mode=TwoWay}"/>
             <Button Text="Share Course Notes" Command="{Binding ShareCourseNotesCommand}"/>
 
-            <Label x:Name="alertsEnabledLabel" Text="{Binding SetAlerts}"/>
+            <Label x:Name="alertsEnabledLabel" Text="{Binding SetAlerts, Mode=TwoWay}"/>
 
             <Label Text="Assessments" HorizontalOptions="Center"/>
 

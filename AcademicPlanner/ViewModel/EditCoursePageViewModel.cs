@@ -124,6 +124,7 @@ namespace AcademicPlanner.ViewModel
         public ICommand UpdateCourseCommand => new Command(UpdateCourse);
         async void UpdateCourse()
         {
+            // check if the EndDate is different. If so set a new reminder
             Course course = new Course
             {
                 CourseID = Int32.Parse(CourseID),
@@ -140,8 +141,9 @@ namespace AcademicPlanner.ViewModel
             };
             await CourseService.UpdateCourse(course);
 
-            //await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
-            await Application.Current.MainPage.Navigation.PopToRootAsync();
+            MessagingCenter.Send<Course>(course, "UpdateCourse");
+
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
     }
 }

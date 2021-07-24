@@ -19,10 +19,11 @@ namespace AcademicPlanner.View
 
             OnAppearing();
 
-            deleteCourseButton.CommandParameter = course;
-            editCourseButton.CommandParameter = course;
+            //deleteCourseButton.CommandParameter = course;
+            //editCourseButton.CommandParameter = course;
 
             courseID.Text = course.CourseID.ToString();
+            termID.Text = course.TermID.ToString();
             courseNameLabel.Text = course.CourseName;
             courseStartDateLabel.Text = course.StartDate.ToString();
             courseEndDateLabel.Text = course.EndDate.ToString();

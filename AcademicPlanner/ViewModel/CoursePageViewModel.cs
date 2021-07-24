@@ -24,6 +24,17 @@ namespace AcademicPlanner.ViewModel
                 SetField(ref _courseID, value);
             }
         }
+
+        private string _termID;
+        public string TermID
+        {
+            get => _termID;
+            set
+            {
+                SetField(ref _termID, value);
+            }
+        }
+
         private string _courseName;
         public string CourseName
         {
@@ -131,28 +142,26 @@ namespace AcademicPlanner.ViewModel
         }
 
         public ICommand DeleteCourseCommand => new Command(DeleteCourse);
-        async void DeleteCourse(Object course)
+        async void DeleteCourse()
         {
-            Course deleteCourse = course as Course;
+            //Object course
+            //Course deleteCourse = course as Course;
 
             // delete associated Assessments
-            DeleteAssociatedAssessments(deleteCourse);
+            DeleteAssociatedAssessments();
 
-            await CourseService.RemoveCourse(deleteCourse);
+            await CourseService.RemoveCourse(Int32.Parse(CourseID));
 
-            MessagingCenter.Send(deleteCourse, "DeleteCourse");
-            //await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
+            MessagingCenter.Send(CourseID, "DeleteCourse");
             await Application.Current.MainPage.Navigation.PopAsync();
-
-            // after deleting course navigate back to the previous page (termpage) set the previously selected term to null and refresh listview.
         }
 
-        async void DeleteAssociatedAssessments(Course course)
+        async void DeleteAssociatedAssessments()
         {
             var assessments = await AssessmentService.GetAssessment();
             foreach (Assessment assessment in assessments)
             {
-                if (assessment.CourseID == course.CourseID)
+                if (assessment.CourseID == Int32.Parse(CourseID))
                 {
                     await AssessmentService.RemoveAssessment(assessment);
                 }
@@ -160,9 +169,23 @@ namespace AcademicPlanner.ViewModel
         }
 
         public ICommand UpdateCourseCommand => new Command(UpdateCourse);
-        async void UpdateCourse(Object course)
+        async void UpdateCourse()
         {
-            Course updateCourse = course as Course;
+            Course updateCourse = new Course()
+            {
+                CourseID = Int32.Parse(CourseID),
+                CourseName = CourseName,
+                TermID = Int32.Parse(TermID),
+                StartDate = StartDate,
+                EndDate = EndDate,
+                CourseStatus = CourseStatus,
+                InstructorName = InstructorName,
+                InstructorPhone = InstructorPhone,
+                InstructorEmail = InstructorEmail,
+                CourseNotes = CourseNotes,
+                SetAlerts = SetAlerts
+            };
+
             await Application.Current.MainPage.Navigation.PushAsync(new EditCoursePage(updateCourse));
         }
 
@@ -208,12 +231,10 @@ namespace AcademicPlanner.ViewModel
             {
                 AssessmentCollection.Add(assessment);
             });
-
             MessagingCenter.Subscribe<Assessment>(this, "DeleteAssessment", assessment => 
             {
                 AssessmentCollection.Remove(assessment);
             });
-
             MessagingCenter.Subscribe<Assessment>(this, "UpdateAssessment", assessment =>
             {
                 for(int i = 0; i < AssessmentCollection.Count; i++)
@@ -223,6 +244,21 @@ namespace AcademicPlanner.ViewModel
                         AssessmentCollection[i] = assessment;
                     }
                 }
+            });
+            // Msg for updatingcourse
+            MessagingCenter.Subscribe<Course>(this, "UpdateCourse", course =>
+            {
+                CourseID = course.CourseID.ToString();
+                TermID = course.TermID.ToString();
+                CourseName = course.CourseName;
+                StartDate = course.StartDate;
+                EndDate = course.EndDate;
+                CourseStatus = course.CourseStatus;
+                InstructorName = course.InstructorName;
+                InstructorPhone = course.InstructorPhone;
+                InstructorEmail = course.InstructorEmail;
+                CourseNotes = course.CourseNotes;
+                SetAlerts = course.SetAlerts;
             });
         }
         async Task LoadAssessments()
@@ -237,7 +273,5 @@ namespace AcademicPlanner.ViewModel
                 }
             }
         }
-        //public static Assessment SelectedAssessment { get; set; } = new Assessment();
-        // await Application.Current.MainPage.Navigation.PushAsync(new EditCoursePage(course))
     }
 }
