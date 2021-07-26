@@ -16,8 +16,8 @@ namespace AcademicPlanner.View
         public TermPage(Term term)
         {
             InitializeComponent();
-            //deleteTermButton.CommandParameter = term;
-            //editTerm.CommandParameter = term;
+
+            // set initial values
             selectedTermName.Text = term.TermName;
             selectedTermID.Text = term.TermID.ToString();
 
@@ -25,13 +25,6 @@ namespace AcademicPlanner.View
             selectedTermEnd.Text = term.TermEnd.ToString();
         }
 
-        //async void CourseSelected(object sender, SelectedItemChangedEventArgs e)
-        //{
-        //    Course course = (Course)e.SelectedItem;
-        //    if (course == null) return;
-        //    await Navigation.PushAsync(new CoursePage(course));
-        //    coursesListView.SelectedItem = null;
-        //}
         protected override void OnAppearing()
         {
             coursesListView.SelectedItem = null;

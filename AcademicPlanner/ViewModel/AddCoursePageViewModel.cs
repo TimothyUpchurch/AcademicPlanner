@@ -115,37 +115,53 @@ namespace AcademicPlanner.ViewModel
 
         async void AddCourse()
         {
-            // create Course object from all user input data
-            Course course = new Course
+            if (CourseName != null && StartDate != null && EndDate != null && CourseStatus != null && InstructorName != null && InstructorPhone != null && InstructorEmail != null)
             {
-                // course name
-                CourseName = CourseName,
-                // term id
-                TermID = Int32.Parse(TermID),
-                // start date
-                StartDate = StartDate,
-                // end date
-                EndDate = EndDate,
-                // Course status
-                CourseStatus = CourseStatus,
+                if (Validations.EndDateAfterStart(StartDate, EndDate))
+                {
+                    // create Course object from all user input data
+                    Course course = new Course
+                    {
+                        // course name
+                        CourseName = CourseName,
+                        // term id
+                        TermID = Int32.Parse(TermID),
+                        // start date
+                        StartDate = StartDate,
+                        // end date
+                        EndDate = EndDate,
+                        // Course status
+                        CourseStatus = CourseStatus,
 
-                // instructors name, phone, email
-                InstructorName = InstructorName,
-                InstructorPhone = InstructorPhone,
-                InstructorEmail = InstructorEmail,
-                // course notes
-                CourseNotes = CourseNotes,
-                // set alerts
-                SetAlerts = (bool)SetAlerts
-            };
-            await CourseService.AddCourse(course);
+                        // instructors name, phone, email
+                        InstructorName = InstructorName,
+                        InstructorPhone = InstructorPhone,
+                        InstructorEmail = InstructorEmail,
+                        // course notes
+                        CourseNotes = CourseNotes,
+                        // set alerts
+                        SetAlerts = (bool)SetAlerts
+                    };
+                    await CourseService.AddCourse(course);
 
-            SetNotifications(SetAlerts, CourseName, $"{CourseName} starts on {StartDate}", 1, DateTime.Now.AddSeconds(5));
-            SetNotifications(SetAlerts, CourseName, $"{CourseName} ends on {EndDate}", 2, DateTime.Now.AddSeconds(8));
+                    SetNotifications(SetAlerts, CourseName, $"{CourseName} starts on {StartDate}", 1, DateTime.Now.AddSeconds(5));
+                    SetNotifications(SetAlerts, CourseName, $"{CourseName} ends on {EndDate}", 2, DateTime.Now.AddSeconds(8));
 
-            // send message to termpageviewmodel to subscribe to the changes made here. // "AddCourse"
-            MessagingCenter.Send(course, "AddCourse");
-            await Application.Current.MainPage.Navigation.PopAsync();
+                    // send message to termpageviewmodel to subscribe to the changes made here. // "AddCourse"
+                    MessagingCenter.Send(course, "AddCourse");
+                    await Application.Current.MainPage.Navigation.PopAsync();
+                }
+                else
+                {
+                    // tell user end dat needs to come after start date.
+                    await Application.Current.MainPage.DisplayAlert("Invalid Date", "End Date Must Occur After The Start Date.", "OK");
+                }
+            }
+            else
+            {
+                // all fields need to be occupied.
+                await Application.Current.MainPage.DisplayAlert("Occupy All Fields", "All Fields Must Be Occupied.", "OK");
+            }
         }
     }
 }

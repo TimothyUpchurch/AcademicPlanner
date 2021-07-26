@@ -9,52 +9,95 @@
     </ContentPage.BindingContext>
 
     <NavigationPage.TitleView>
-        <Button Text="Delete" x:Name="deleteCourseButton" Command="{Binding DeleteCourseCommand}"/>
+        <Button Text="Delete" x:Name="deleteCourseButton" Command="{Binding DeleteCourseCommand}" HorizontalOptions="End"/>
     </NavigationPage.TitleView>
 
-    <ContentPage.Content>
+    <ScrollView>
         <StackLayout>
 
-            <Button Text="Edit Course" Style="{StaticResource editButton}" x:Name="editCourseButton" Command="{Binding UpdateCourseCommand}"/>
+            <Button Text="Edit Course" Style="{StaticResource editButton}" x:Name="editCourseButton" Command="{Binding UpdateCourseCommand}" HorizontalOptions="End"/>
 
             <Label x:Name="courseID" Text="{Binding CourseID, Mode=TwoWay}" IsVisible="False"/>
             <Label x:Name="termID" Text="{Binding TermID, Mode=TwoWay}" IsVisible="False"/>
-            <Label x:Name="courseNameLabel" Text="{Binding CourseName, Mode=TwoWay}"/>
 
-            <Label x:Name="courseStartDateLabel" Text="{Binding StartDate, Mode=TwoWay}"/>
-            <Label x:Name="courseEndDateLabel" Text="{Binding EndDate, Mode=TwoWay}"/>
+            <StackLayout HorizontalOptions="Center">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Course Name: "/>
+                    <Label x:Name="courseNameLabel" Text="{Binding CourseName, Mode=TwoWay}"/>
+                </StackLayout>
 
-            <Label x:Name="courseStatusLabel" Text="{Binding CourseStatus, Mode=TwoWay}"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Start Date: "/>
+                    <Label x:Name="courseStartDateLabel" Text="{Binding StartDate, Mode=TwoWay, StringFormat='{0:MMMM dd, yyyy}'}"/>
+                </StackLayout>
 
-            <Label x:Name="instructorNameLabel" Text="{Binding InstructorName, Mode=TwoWay}"/>
-            <Label x:Name="instructorPhoneLabel" Text="{Binding InstructorPhone, Mode=TwoWay}"/>
-            <Label x:Name="instructorEmailLabel" Text="{Binding InstructorEmail, Mode=TwoWay}"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="End Date: "/>
+                    <Label x:Name="courseEndDateLabel" Text="{Binding EndDate, Mode=TwoWay, StringFormat='{0:MMMM dd, yyyy}'}"/>
+                </StackLayout>
 
-            <Label x:Name="courseNotesLabel" Text="{Binding CourseNotes, Mode=TwoWay}"/>
-            <Button Text="Share Course Notes" Command="{Binding ShareCourseNotesCommand}"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Course Status: "/>
+                    <Label x:Name="courseStatusLabel" Text="{Binding CourseStatus, Mode=TwoWay}"/>
+                </StackLayout>
 
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Alerts Enabled: "/>
-                <Label x:Name="alertsEnabledLabel" Text="{Binding SetAlerts, Mode=TwoWay}"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Instructor's Name: "/>
+                    <Label x:Name="instructorNameLabel" Text="{Binding InstructorName, Mode=TwoWay}"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Instructor's Phone: "/>
+                    <Label x:Name="instructorPhoneLabel" Text="{Binding InstructorPhone, Mode=TwoWay}"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Instructor's Email: "/>
+                    <Label x:Name="instructorEmailLabel" Text="{Binding InstructorEmail, Mode=TwoWay}"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Alerts Enabled: "/>
+                    <Label x:Name="alertsEnabledLabel" Text="{Binding SetAlerts, Mode=TwoWay}"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Padding="0, 15">
+                    <Label Text="Course Notes: "/>
+                    <Label x:Name="courseNotesLabel" Text="{Binding CourseNotes, Mode=TwoWay}"/>
+                </StackLayout>
             </StackLayout>
 
+            <Button Text="Share Course Notes" Command="{Binding ShareCourseNotesCommand}"/>
 
-            <Label Text="Assessments" HorizontalOptions="Center"/>
+            <CollectionView ItemsSource="{Binding AssessmentCollection}" 
+                            SelectedItem="{Binding SelectedAssessment, Mode=OneWayToSource}"
+                            SelectionMode="Single"
+                            x:Name="assessmentListView">
 
-            <ListView ItemsSource="{Binding AssessmentCollection}" SelectedItem="{Binding SelectedAssessment, Mode=OneWayToSource}" x:Name="assessmentListView">
-                <ListView.ItemTemplate>
+                <CollectionView.Header>
+                    <StackLayout Padding="0, 20, 0, 10">
+                        <Label Text="Assessments" 
+                           HorizontalOptions="Center" 
+                           VerticalTextAlignment="Center" 
+                           TextColor="{StaticResource Primary}"
+                           FontSize="Medium"/>
+                    </StackLayout>
+                </CollectionView.Header>
+
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <StackLayout>
-                                <Label Text="{Binding CourseID}"/>
+                        <Grid Padding="10, 10, 10, 0">
+                            <Frame>
                                 <Label Text="{Binding AssessmentName}"/>
-                            </StackLayout>
-                        </ViewCell>
+                            </Frame>
+                        </Grid>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            
-            <Button Text="Add Assessment" Command="{Binding AddAssessmentCommand}" VerticalOptions="EndAndExpand"/>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.Footer>
+                    <Button Text="Add Assessment" Command="{Binding AddAssessmentCommand}" Style="{StaticResource editButton}"/>
+                </CollectionView.Footer>    
+            </CollectionView>
         </StackLayout>
-    </ContentPage.Content>
+    </ScrollView>
 </ContentPage>

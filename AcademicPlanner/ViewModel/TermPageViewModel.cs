@@ -74,7 +74,6 @@ namespace AcademicPlanner.ViewModel
             {
                 Courses.Add(course);
             });
-
             MessagingCenter.Subscribe<Term>(this, "UpdateTerm", term =>
             {
                 TermID = term.TermID.ToString();
@@ -92,7 +91,6 @@ namespace AcademicPlanner.ViewModel
                     }
                 }
             });
-
             MessagingCenter.Subscribe<Course>(this, "UpdateCourse", course =>
             {
                 for (int i = 0; i < Courses.Count; i++)

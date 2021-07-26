@@ -37,17 +37,24 @@ namespace AcademicPlanner.ViewModel
             // Check name value is entered in
             if (TermName != null)
             {
-                // create new term from user selected values      
-                Term newTerm = new Term
+                if (Validations.EndDateAfterStart(StartDate, EndDate))
                 {
-                    TermName = TermName,
-                    TermStart = StartDate,
-                    TermEnd = EndDate
-                };
-                await TermService.AddTerm(newTerm);
-                // Send msg to add new term to the Terms observablecollection in the mainpageviewmodel
-                MessagingCenter.Send(newTerm, "AddTerm");
-                await Application.Current.MainPage.Navigation.PopAsync();
+                    // create new term from user selected values      
+                    Term newTerm = new Term
+                    {
+                        TermName = TermName,
+                        TermStart = StartDate,
+                        TermEnd = EndDate
+                    };
+                    await TermService.AddTerm(newTerm);
+                    // Send msg to add new term to the Terms observablecollection in the mainpageviewmodel
+                    MessagingCenter.Send(newTerm, "AddTerm");
+                    await Application.Current.MainPage.Navigation.PopAsync();
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "End Date Should Occur After The Start Date.", "OK");
+                }
             }
             else
             {

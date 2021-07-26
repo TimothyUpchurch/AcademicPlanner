@@ -56,20 +56,27 @@ namespace AcademicPlanner.ViewModel
         {
             if (TermName != null)
             {
-                Term updateTerm = new Term
+                if (Validations.EndDateAfterStart(StartDate, EndDate))
                 {
-                    TermID = Int32.Parse(TermID),
-                    TermName = TermName,
-                    TermStart = StartDate,
-                    TermEnd = EndDate
-                };
-                await TermService.UpdateTerm(updateTerm);
+                    Term updateTerm = new Term
+                    {
+                        TermID = Int32.Parse(TermID),
+                        TermName = TermName,
+                        TermStart = StartDate,
+                        TermEnd = EndDate
+                    };
+                    await TermService.UpdateTerm(updateTerm);
 
-                // send UpdateTerm msg to the 
-                MessagingCenter.Send(updateTerm, "UpdateTerm");
+                    // send UpdateTerm msg to the 
+                    MessagingCenter.Send(updateTerm, "UpdateTerm");
 
-                // navigate popstack
-                await Application.Current.MainPage.Navigation.PopAsync();
+                    // navigate popstack
+                    await Application.Current.MainPage.Navigation.PopAsync();
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "End Date Should Occur After The Start Date.", "OK");
+                }
             }
             else
             {

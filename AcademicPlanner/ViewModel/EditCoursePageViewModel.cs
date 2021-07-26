@@ -134,31 +134,47 @@ namespace AcademicPlanner.ViewModel
         public ICommand UpdateCourseCommand => new Command(UpdateCourse);
         async void UpdateCourse()
         {
-            Course course = new Course
+            if (CourseName != "" && StartDate != null && EndDate != null && CourseStatus != "" && InstructorName != "" && InstructorPhone != "" && InstructorEmail != "")
             {
-                CourseID = Int32.Parse(CourseID),
-                TermID = Int32.Parse(TermID),
-                CourseName = CourseName,
-                StartDate = StartDate,
-                EndDate = EndDate,
-                CourseStatus = CourseStatus,
-                CourseNotes = CourseNotes,
-                InstructorName = InstructorName,
-                InstructorPhone = InstructorPhone,
-                InstructorEmail = InstructorEmail,
-                SetAlerts = SetAlerts
-            };
-            await CourseService.UpdateCourse(course);
+                if (Validations.EndDateAfterStart(StartDate, EndDate))
+                {
+                    Course course = new Course
+                    {
+                        CourseID = Int32.Parse(CourseID),
+                        TermID = Int32.Parse(TermID),
+                        CourseName = CourseName,
+                        StartDate = StartDate,
+                        EndDate = EndDate,
+                        CourseStatus = CourseStatus,
+                        CourseNotes = CourseNotes,
+                        InstructorName = InstructorName,
+                        InstructorPhone = InstructorPhone,
+                        InstructorEmail = InstructorEmail,
+                        SetAlerts = SetAlerts
+                    };
+                    await CourseService.UpdateCourse(course);
 
-            MessagingCenter.Send<Course>(course, "UpdateCourse");
+                    MessagingCenter.Send<Course>(course, "UpdateCourse");
 
-            // check if the EndDate is different. If so set a new reminder
-            if (PreviousEndDate != course.EndDate)
-            {
-                SetNotifications(SetAlerts, "Updated Course", $"End date for {CourseName} is now {EndDate}", 5, DateTime.Now.AddSeconds(5));
+                    // check if the EndDate is different. If so set a new reminder
+                    if (PreviousEndDate != course.EndDate)
+                    {
+                        SetNotifications(SetAlerts, "Updated Course", $"End date for {CourseName} is now {EndDate}", 5, DateTime.Now.AddSeconds(5));
+                    }
+
+                    await Application.Current.MainPage.Navigation.PopAsync();
+                }
+                else
+                {
+                    // tell user end dat needs to come after start date.
+                    await Application.Current.MainPage.DisplayAlert("Invalid Date", "End Date Must Occur After The Start Date.", "OK");
+                }
             }
-
-            await Application.Current.MainPage.Navigation.PopAsync();
+            else
+            {
+                // all fields need to be occupied.
+                await Application.Current.MainPage.DisplayAlert("Occupy All Fields", "All Fields Must Be Occupied.", "OK");
+            }
         }
     }
 }

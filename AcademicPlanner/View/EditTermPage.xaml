@@ -10,7 +10,7 @@
     
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding TermID, Mode=TwoWay}" x:Name="termID"/>
+            <Label Text="{Binding TermID, Mode=TwoWay}" x:Name="termID" IsVisible="false"/>
             <Entry x:Name="termName" Placeholder="Term Name" Text="{Binding TermName, Mode=TwoWay}" />
             <DatePicker x:Name="startDate" Date="{Binding StartDate, Mode=TwoWay}"/>
             <DatePicker x:Name="endDate" Date="{Binding EndDate, Mode=TwoWay}"/>

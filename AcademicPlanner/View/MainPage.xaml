@@ -9,21 +9,6 @@
     </ContentPage.BindingContext>
 
     <StackLayout>
-        <!--<StackLayout Padding="0, 20">
-            <Label Text="All Terms" HorizontalOptions="Center" VerticalTextAlignment="Center" TextColor="{StaticResource Primary}"/>
-        </StackLayout>-->
-        <!--<ScrollView>
-            <ListView ItemsSource="{Binding Terms}" x:Name="termsListView" SeparatorVisibility="Default" HasUnevenRows="False" SelectedItem="{Binding SelectedTerm}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Label Text="{Binding TermName}"/>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </ScrollView>-->
-
         <CollectionView ItemsSource="{Binding Terms}" 
                         SelectedItem="{Binding SelectedTerm}"
                         SelectionMode="Single"

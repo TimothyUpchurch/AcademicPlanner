@@ -15,32 +15,44 @@
     <ContentPage.Content>
         <StackLayout>
             <Button Text="Edit Term" Style="{StaticResource editButton}" Command="{Binding EditTermCommand}" x:Name="editTerm" HorizontalOptions="End"/>
-            <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center" Padding="0, 20, 0, 10">
-                <Label Text="Term Name: " />
-                <Label x:Name="selectedTermName" Text="{Binding TermName, Mode=TwoWay}"/>
-
-                <Label x:Name="selectedTermID" Text="{Binding TermID, Mode=TwoWay}" IsVisible="false"/>
-                <Label x:Name="selectedTermStart" IsVisible="false" Text="{Binding StartDate, Mode=TwoWay}"/>
-                <Label x:Name="selectedTermEnd" IsVisible="false" Text="{Binding EndDate, Mode=TwoWay}"/>
-            </StackLayout>
             
-            <!--<ListView ItemsSource="{Binding Courses}" x:Name="coursesListView" ItemSelected="CourseSelected">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Label Text="{Binding CourseName}"/>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>-->
+            <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center" Padding="0, 20, 0, 10">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Term Name: " />
+                    <Label x:Name="selectedTermName" Text="{Binding TermName, Mode=TwoWay}"/>
+                </StackLayout>
+                <Label x:Name="selectedTermID" Text="{Binding TermID, Mode=TwoWay}" IsVisible="false"/>
+                <StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Start Date: "/>
+                        <Label x:Name="selectedTermStart" IsVisible="true" Text="{Binding StartDate, Mode=TwoWay, StringFormat='{0:MMMM dd, yyyy}'}"/>
+                    </StackLayout>
 
-            <!--Change selecteditem to SelectionChangedCommand-->
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="End Date: "/>
+                        <Label x:Name="selectedTermEnd" IsVisible="true" Text="{Binding EndDate, Mode=TwoWay, StringFormat='{0:MMMM dd, yyyy}'}" />
+                    </StackLayout>
+
+                </StackLayout>
+            </StackLayout>
+
             <CollectionView ItemsSource="{Binding Courses}" 
                             x:Name="coursesListView"
                             SelectionMode="Single"
                             SelectionChangedCommand="{Binding NavigateToCoursePageCommand}"
                             SelectedItem="{Binding SelectedCourse}"
                             SelectionChangedCommandParameter="{Binding SelectedCourse}">
+
+                <CollectionView.Header>
+                    <StackLayout Padding="0, 20, 0, 10">
+                        <Label Text="Courses" 
+                           HorizontalOptions="Center" 
+                           VerticalTextAlignment="Center" 
+                           TextColor="{StaticResource Primary}"
+                           FontSize="Medium"/>
+                    </StackLayout>
+                </CollectionView.Header>
+                
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="10, 10, 10, 0">

@@ -16,11 +16,7 @@ namespace AcademicPlanner.View
         public CoursePage(Course course)
         {
             InitializeComponent();
-
             OnAppearing();
-
-            //deleteCourseButton.CommandParameter = course;
-            //editCourseButton.CommandParameter = course;
 
             courseID.Text = course.CourseID.ToString();
             termID.Text = course.TermID.ToString();

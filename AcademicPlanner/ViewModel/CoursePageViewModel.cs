@@ -144,16 +144,17 @@ namespace AcademicPlanner.ViewModel
         public ICommand DeleteCourseCommand => new Command(DeleteCourse);
         async void DeleteCourse()
         {
-            //Object course
-            //Course deleteCourse = course as Course;
+            bool answer = await Application.Current.MainPage.DisplayAlert("Delete", "Are You Sure You Want To Delete This Course?", "Yes", "No");
+            if (answer)
+            {
+                // delete associated Assessments before deleting course
+                DeleteAssociatedAssessments();
 
-            // delete associated Assessments
-            DeleteAssociatedAssessments();
+                await CourseService.RemoveCourse(Int32.Parse(CourseID));
 
-            await CourseService.RemoveCourse(Int32.Parse(CourseID));
-
-            MessagingCenter.Send(CourseID, "DeleteCourse");
-            await Application.Current.MainPage.Navigation.PopAsync();
+                MessagingCenter.Send(CourseID, "DeleteCourse");
+                await Application.Current.MainPage.Navigation.PopAsync();
+            }
         }
 
         async void DeleteAssociatedAssessments()
