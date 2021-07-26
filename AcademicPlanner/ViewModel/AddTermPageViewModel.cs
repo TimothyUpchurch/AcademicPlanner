@@ -35,14 +35,14 @@ namespace AcademicPlanner.ViewModel
         async void AddTerm()
         {
             // Check name value is entered in
-            if (_termName != null)
+            if (TermName != null)
             {
                 // create new term from user selected values      
                 Term newTerm = new Term
                 {
-                    TermName = _termName,
-                    TermStart = _startDate,
-                    TermEnd = _endDate
+                    TermName = TermName,
+                    TermStart = StartDate,
+                    TermEnd = EndDate
                 };
                 await TermService.AddTerm(newTerm);
                 // Send msg to add new term to the Terms observablecollection in the mainpageviewmodel

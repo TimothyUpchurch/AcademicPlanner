@@ -23,12 +23,14 @@ namespace AcademicPlanner.View
             courseName.Text = course.CourseName;
             startDate.Date = course.StartDate;
             endDate.Date = course.EndDate;
+            previousEndDate.Date = course.EndDate;
             status.SelectedItem = course.CourseStatus;
             courseNotes.Text = course.CourseNotes;
             instructorName.Text = course.InstructorName;
             instructorPhone.Text = course.InstructorPhone;
             instructorEmail.Text = course.InstructorEmail;
-            setAlerts.IsToggled = course.SetAlerts;
+            setAlertsSwitch.IsToggled = course.SetAlerts;
+            //setAlerts.IsToggled = course.SetAlerts;
         }
     }
 }

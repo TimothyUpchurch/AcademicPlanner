@@ -56,6 +56,16 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
+        private Course _selectedCourse;
+        public Course SelectedCourse
+        {
+            get => _selectedCourse;
+            set
+            {
+                SetField(ref _selectedCourse, value);
+            }
+        }
+
         public TermPageViewModel()
         {
             _ = LoadCourses();
@@ -121,7 +131,6 @@ namespace AcademicPlanner.ViewModel
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
         }
-
         async void DeleteAssociatedCourses(int termID)
         {
             var courses = await CourseService.GetCourse();
@@ -136,7 +145,6 @@ namespace AcademicPlanner.ViewModel
         }
 
         public ICommand EditTermCommand => new Command(EditTerm);
-
         //Object term
         async void EditTerm()
         {
@@ -153,5 +161,13 @@ namespace AcademicPlanner.ViewModel
         }
 
         public ICommand Navigate => new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddCoursePage(Int32.Parse(TermID))));
+
+        public ICommand NavigateToCoursePageCommand => new Command(NavigateToCoursePage);
+        async void NavigateToCoursePage(Object course)
+        {
+            Course courseToNavigate = course as Course;
+            if (course == null) return;
+            await Application.Current.MainPage.Navigation.PushAsync(new CoursePage(courseToNavigate));
+        }
     }
 }

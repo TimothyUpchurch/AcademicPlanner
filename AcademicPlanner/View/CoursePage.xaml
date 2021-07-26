@@ -33,7 +33,11 @@
             <Label x:Name="courseNotesLabel" Text="{Binding CourseNotes, Mode=TwoWay}"/>
             <Button Text="Share Course Notes" Command="{Binding ShareCourseNotesCommand}"/>
 
-            <Label x:Name="alertsEnabledLabel" Text="{Binding SetAlerts, Mode=TwoWay}"/>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Alerts Enabled: "/>
+                <Label x:Name="alertsEnabledLabel" Text="{Binding SetAlerts, Mode=TwoWay}"/>
+            </StackLayout>
+
 
             <Label Text="Assessments" HorizontalOptions="Center"/>
 

@@ -54,24 +54,27 @@ namespace AcademicPlanner.ViewModel
         public ICommand UpdateTermCommand => new Command(UpdateTerm);
         async void UpdateTerm()
         {
-            Term updateTerm = new Term
+            if (TermName != null)
             {
-                TermID = Int32.Parse(TermID),
-                TermName = TermName,
-                TermStart = StartDate,
-                TermEnd = EndDate
-            };
-            await TermService.UpdateTerm(updateTerm);
+                Term updateTerm = new Term
+                {
+                    TermID = Int32.Parse(TermID),
+                    TermName = TermName,
+                    TermStart = StartDate,
+                    TermEnd = EndDate
+                };
+                await TermService.UpdateTerm(updateTerm);
 
-            // send UpdateTerm msg to the 
-            MessagingCenter.Send(updateTerm, "UpdateTerm");
+                // send UpdateTerm msg to the 
+                MessagingCenter.Send(updateTerm, "UpdateTerm");
 
-            // navigate popstack
-            await Application.Current.MainPage.Navigation.PopAsync();
-
-            //await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
-            
-            //await Application.Current.MainPage.Navigation.PopToRootAsync();
+                // navigate popstack
+                await Application.Current.MainPage.Navigation.PopAsync();
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Alert", "Please Enter A Name.", "OK");
+            }
         }
     }
 }

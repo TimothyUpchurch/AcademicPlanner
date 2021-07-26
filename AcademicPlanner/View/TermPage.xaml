@@ -9,22 +9,22 @@
     </ContentPage.BindingContext>
 
     <NavigationPage.TitleView>
-        <Button Text="Delete" Command="{Binding DeleteTermCommand}" x:Name="deleteTermButton"/>
+        <Button Text="Delete" Command="{Binding DeleteTermCommand}" x:Name="deleteTermButton" HorizontalOptions="End"/>
     </NavigationPage.TitleView>
     
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
+            <Button Text="Edit Term" Style="{StaticResource editButton}" Command="{Binding EditTermCommand}" x:Name="editTerm" HorizontalOptions="End"/>
+            <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center" Padding="0, 20, 0, 10">
                 <Label Text="Term Name: " />
                 <Label x:Name="selectedTermName" Text="{Binding TermName, Mode=TwoWay}"/>
-                <Button Text="Edit Term" Style="{StaticResource editButton}" Command="{Binding EditTermCommand}" x:Name="editTerm"/>
+
                 <Label x:Name="selectedTermID" Text="{Binding TermID, Mode=TwoWay}" IsVisible="false"/>
-                
                 <Label x:Name="selectedTermStart" IsVisible="false" Text="{Binding StartDate, Mode=TwoWay}"/>
                 <Label x:Name="selectedTermEnd" IsVisible="false" Text="{Binding EndDate, Mode=TwoWay}"/>
             </StackLayout>
             
-            <ListView ItemsSource="{Binding Courses}" x:Name="coursesListView" ItemSelected="CourseSelected">
+            <!--<ListView ItemsSource="{Binding Courses}" x:Name="coursesListView" ItemSelected="CourseSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -32,7 +32,26 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </ListView>
+            </ListView>-->
+
+            <!--Change selecteditem to SelectionChangedCommand-->
+            <CollectionView ItemsSource="{Binding Courses}" 
+                            x:Name="coursesListView"
+                            SelectionMode="Single"
+                            SelectionChangedCommand="{Binding NavigateToCoursePageCommand}"
+                            SelectedItem="{Binding SelectedCourse}"
+                            SelectionChangedCommandParameter="{Binding SelectedCourse}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10, 10, 10, 0">
+                            <Frame>
+                                <Label Text="{Binding CourseName}"/>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
             <Button Text="Add Course" Command="{Binding Navigate}" CommandParameter="{Binding TermID}"/>
         </StackLayout>
     </ContentPage.Content>

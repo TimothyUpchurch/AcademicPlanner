@@ -9,8 +9,10 @@
     </ContentPage.BindingContext>
 
     <StackLayout>
-        <ScrollView>
-            <!--ItemSelected="TermSelected"-->
+        <!--<StackLayout Padding="0, 20">
+            <Label Text="All Terms" HorizontalOptions="Center" VerticalTextAlignment="Center" TextColor="{StaticResource Primary}"/>
+        </StackLayout>-->
+        <!--<ScrollView>
             <ListView ItemsSource="{Binding Terms}" x:Name="termsListView" SeparatorVisibility="Default" HasUnevenRows="False" SelectedItem="{Binding SelectedTerm}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -20,7 +22,35 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </ScrollView>
+        </ScrollView>-->
+
+        <CollectionView ItemsSource="{Binding Terms}" 
+                        SelectedItem="{Binding SelectedTerm}"
+                        SelectionMode="Single"
+                        x:Name="termsListView"
+                        BackgroundColor="Transparent">
+
+            <CollectionView.Header>
+                <StackLayout Padding="0, 20, 0, 10">
+                    <Label Text="All Terms" 
+                           HorizontalOptions="Center" 
+                           VerticalTextAlignment="Center" 
+                           TextColor="{StaticResource Primary}"
+                           FontSize="Medium"/>
+                </StackLayout>
+            </CollectionView.Header>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10, 10, 10, 0">
+                        <Frame>
+                            <Label Text="{Binding TermName}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
         <Button Text="Add Term" Command="{Binding Navigate}"/>
     </StackLayout>
 </ContentPage>

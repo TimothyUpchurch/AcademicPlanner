@@ -74,6 +74,7 @@ namespace AcademicPlanner.ViewModel
                 //TermName = SelectedTerm.TermName;
             });
         }
+
         // demo code
         async Task DemoTerms()
         {

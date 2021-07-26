@@ -207,7 +207,6 @@ namespace AcademicPlanner.ViewModel
                     To = { "Timmyupc@gmail.com" }
                 };
                 await Email.ComposeAsync(message);
-                await Application.Current.MainPage.DisplayAlert("Success", "Message sent successfully", "Cancel");
             }
             catch (FeatureNotSupportedException fbsEx)
             {

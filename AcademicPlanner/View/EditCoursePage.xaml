@@ -13,6 +13,8 @@
 
             <Label x:Name="selectedCourseID" IsVisible="False" Text="{Binding CourseID, Mode=TwoWay}"/>
             <Label x:Name="selectedTermID" IsVisible="False" Text="{Binding TermID, Mode=TwoWay}"/>
+            <!--<Label x:Name="setAlertsLabel" IsVisible="False" Text="{Binding SetAlerts, Mode=TwoWay}"/>-->
+
 
             <Entry Placeholder="Course Name" Text="{Binding CourseName}" x:Name="courseName"/>
 
@@ -21,6 +23,7 @@
 
             <Label Text="End Date"/>
             <DatePicker Date="{Binding EndDate, Mode=OneWayToSource}" x:Name="endDate"/>
+            <DatePicker Date="{Binding PreviousEndDate, Mode=TwoWay}" x:Name="previousEndDate" IsVisible="False" />
 
             <Picker Title="Status" SelectedItem="{Binding CourseStatus}" x:Name="status">
                 <Picker.Items>
@@ -38,7 +41,7 @@
 
             <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
                 <Label Text="Set Course Notifications"/>
-                <Switch IsToggled="{Binding SetAlerts}" x:Name="setAlerts"/>
+                <Switch IsToggled="{Binding SetAlerts, Mode=TwoWay}" x:Name="setAlertsSwitch"/>
             </StackLayout>
 
             <Button Text="Update Course" Command="{Binding UpdateCourseCommand}"/>

@@ -61,6 +61,16 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
+        private DateTime _previousEndDate;
+        public DateTime PreviousEndDate
+        {
+            get => _previousEndDate;
+            set
+            {
+                SetField(ref _previousEndDate, value);
+            }
+        }
+
         private string _courseStatus;
         public string CourseStatus
         {
@@ -124,7 +134,6 @@ namespace AcademicPlanner.ViewModel
         public ICommand UpdateCourseCommand => new Command(UpdateCourse);
         async void UpdateCourse()
         {
-            // check if the EndDate is different. If so set a new reminder
             Course course = new Course
             {
                 CourseID = Int32.Parse(CourseID),
@@ -142,6 +151,12 @@ namespace AcademicPlanner.ViewModel
             await CourseService.UpdateCourse(course);
 
             MessagingCenter.Send<Course>(course, "UpdateCourse");
+
+            // check if the EndDate is different. If so set a new reminder
+            if (PreviousEndDate != course.EndDate)
+            {
+                SetNotifications(SetAlerts, "Updated Course", $"End date for {CourseName} is now {EndDate}", 5, DateTime.Now.AddSeconds(5));
+            }
 
             await Application.Current.MainPage.Navigation.PopAsync();
         }

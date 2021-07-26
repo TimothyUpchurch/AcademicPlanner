@@ -36,7 +36,7 @@
                 
                 <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
                     <Label Text="Set Course Notifications"/>
-                    <Switch IsToggled="{Binding SetAlerts}"/>
+                    <Switch IsToggled="{Binding SetAlerts, Mode=TwoWay}"/>
                 </StackLayout>
 
                 <Button Text="Add Course" Command="{Binding AddCourseCommand}"/>

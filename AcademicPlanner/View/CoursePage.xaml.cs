@@ -35,7 +35,7 @@ namespace AcademicPlanner.View
             instructorEmailLabel.Text = course.InstructorEmail;
 
             courseNotesLabel.Text = course.CourseNotes;
-            alertsEnabledLabel.Text = "Alerts Enabled: "  + course.SetAlerts.ToString();
+            alertsEnabledLabel.Text = course.SetAlerts.ToString();
         }
         protected override void OnAppearing()
         {

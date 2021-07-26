@@ -119,29 +119,29 @@ namespace AcademicPlanner.ViewModel
             Course course = new Course
             {
                 // course name
-                CourseName = _courseName,
+                CourseName = CourseName,
                 // term id
-                TermID = Int32.Parse(_termID),
+                TermID = Int32.Parse(TermID),
                 // start date
-                StartDate = _startDate,
+                StartDate = StartDate,
                 // end date
-                EndDate = _endDate,
+                EndDate = EndDate,
                 // Course status
-                CourseStatus = _courseStatus,
+                CourseStatus = CourseStatus,
 
                 // instructors name, phone, email
-                InstructorName = _instructorName,
-                InstructorPhone = _instructorPhone,
-                InstructorEmail = _instructorEmail,
+                InstructorName = InstructorName,
+                InstructorPhone = InstructorPhone,
+                InstructorEmail = InstructorEmail,
                 // course notes
-                CourseNotes = _courseNotes,
+                CourseNotes = CourseNotes,
                 // set alerts
-                SetAlerts = _setAlerts
+                SetAlerts = (bool)SetAlerts
             };
             await CourseService.AddCourse(course);
 
-            SetNotifications(SetAlerts, CourseName, $"{CourseName} starts on {StartDate}", 1, DateTime.Now.AddSeconds(10));
-            SetNotifications(SetAlerts, CourseName, $"{CourseName} ends on {EndDate}", 2, DateTime.Now.AddSeconds(20));
+            SetNotifications(SetAlerts, CourseName, $"{CourseName} starts on {StartDate}", 1, DateTime.Now.AddSeconds(5));
+            SetNotifications(SetAlerts, CourseName, $"{CourseName} ends on {EndDate}", 2, DateTime.Now.AddSeconds(8));
 
             // send message to termpageviewmodel to subscribe to the changes made here. // "AddCourse"
             MessagingCenter.Send(course, "AddCourse");

@@ -25,11 +25,15 @@ namespace AcademicPlanner.View
             selectedTermEnd.Text = term.TermEnd.ToString();
         }
 
-        async void CourseSelected(object sender, SelectedItemChangedEventArgs e)
+        //async void CourseSelected(object sender, SelectedItemChangedEventArgs e)
+        //{
+        //    Course course = (Course)e.SelectedItem;
+        //    if (course == null) return;
+        //    await Navigation.PushAsync(new CoursePage(course));
+        //    coursesListView.SelectedItem = null;
+        //}
+        protected override void OnAppearing()
         {
-            Course course = (Course)e.SelectedItem;
-            if (course == null) return;
-            await Navigation.PushAsync(new CoursePage(course));
             coursesListView.SelectedItem = null;
         }
     }
