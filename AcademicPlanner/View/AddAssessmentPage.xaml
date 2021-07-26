@@ -11,7 +11,6 @@
     <ContentPage.Content>
         <StackLayout>
             <Label x:Name="courseIDLabel" IsVisible="False" Text="{Binding CourseID, Mode=TwoWay}"/>
-            <Label Text="Add Assessment" VerticalOptions="Center"/>
 
             <Entry Placeholder="Assessment Name" Text="{Binding AssessmentName}"/>
             <Label Text="Assessment Type"/>

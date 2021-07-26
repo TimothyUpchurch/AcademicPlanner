@@ -112,7 +112,6 @@ namespace AcademicPlanner.ViewModel
         }
 
         public ICommand AddCourseCommand => new Command(AddCourse);
-
         async void AddCourse()
         {
             if (CourseName != null && StartDate != null && EndDate != null && CourseStatus != null && InstructorName != null && InstructorPhone != null && InstructorEmail != null)
@@ -153,7 +152,7 @@ namespace AcademicPlanner.ViewModel
                 }
                 else
                 {
-                    // tell user end dat needs to come after start date.
+                    // tell user end date needs to come after start date.
                     await Application.Current.MainPage.DisplayAlert("Invalid Date", "End Date Must Occur After The Start Date.", "OK");
                 }
             }

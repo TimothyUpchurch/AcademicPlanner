@@ -16,8 +16,6 @@ namespace AcademicPlanner.View
         public AssessmentPage(Assessment assessment)
         {
             InitializeComponent();
-            //BindingContext = assessment;
-
             deleteAssessmentButton.CommandParameter = assessment;
 
             assessmentIDLabel.Text = assessment.AssessmentID.ToString();
@@ -25,7 +23,7 @@ namespace AcademicPlanner.View
             previousEndDate.Text = assessment.EndDate.ToString();
 
             assessmentNameLabel.Text = assessment.AssessmentName;
-            assessmentTypeLabel.Text = assessment.AssessmentType;
+            assessmentTypeLabel.SelectedItem = assessment.AssessmentType;
             startDate.Date = assessment.StartDate;
             endDate.Date = assessment.EndDate;
         }

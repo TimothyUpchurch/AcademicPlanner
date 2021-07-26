@@ -85,37 +85,56 @@ namespace AcademicPlanner.ViewModel
         public ICommand DeleteAssessmentCommand => new Command(DeleteAssessment);
         async void DeleteAssessment(Object assessment)
         {
-            Assessment deleteAssessment = assessment as Assessment;
-            await AssessmentService.RemoveAssessment(deleteAssessment);
+            bool answer = await Application.Current.MainPage.DisplayAlert("Delete", "Are You Sure You Want To Delete This Assessment?", "Yes", "No");
+            if (answer)
+            {
+                Assessment deleteAssessment = assessment as Assessment;
+                await AssessmentService.RemoveAssessment(deleteAssessment);
 
-            MessagingCenter.Send(deleteAssessment, "DeleteAssessment");
+                MessagingCenter.Send(deleteAssessment, "DeleteAssessment");
 
-            await Application.Current.MainPage.Navigation.PopAsync();
+                await Application.Current.MainPage.Navigation.PopAsync();
+            }
         }
 
         public ICommand EditAssessmentCommand => new Command(EditAssessment);
         async void EditAssessment()
         {
-            Assessment assessment = new Assessment()
+            if (Validations.EndDateAfterStart(StartDate, EndDate))
             {
-                AssessmentID = Int32.Parse(AssessmentID),
-                CourseID = Int32.Parse(CourseID),
-                AssessmentName = AssessmentName,
-                AssessmentType = AssessmentType,
-                StartDate = StartDate,
-                EndDate = EndDate
-            };
+                if (AssessmentName != "" && AssessmentType != "")
+                {
+                    Assessment assessment = new Assessment()
+                    {
+                        AssessmentID = Int32.Parse(AssessmentID),
+                        CourseID = Int32.Parse(CourseID),
+                        AssessmentName = AssessmentName,
+                        AssessmentType = AssessmentType,
+                        StartDate = StartDate,
+                        EndDate = EndDate
+                    };
 
-            if (PreviousEndDate != assessment.EndDate)
-            {
-                //If the end date was updated send out a new notification.
-                SetNotifications(true, AssessmentName, $"{AssessmentName} ends on {EndDate}", 4, DateTime.Now.AddSeconds(5));
+                    if (PreviousEndDate != assessment.EndDate)
+                    {
+                        //If the end date was updated send out a new notification.
+                        SetNotifications(true, AssessmentName, $"{AssessmentName} ends on {EndDate}", 4, DateTime.Now.AddSeconds(5));
+                    }
+
+                    await AssessmentService.UpdateAssessment(assessment);
+                    MessagingCenter.Send(assessment, "UpdateAssessment");
+
+                    await Application.Current.MainPage.Navigation.PopAsync();
+                }
+                else
+                {
+                    // all fields need to be occupied.
+                    await Application.Current.MainPage.DisplayAlert("Occupy All Fields", "All Fields Must Be Occupied.", "OK");
+                }
             }
-
-            await AssessmentService.UpdateAssessment(assessment);
-            MessagingCenter.Send(assessment, "UpdateAssessment");
-
-            await Application.Current.MainPage.Navigation.PopAsync();
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Invalid Date", "End Date Must Occur After The Start Date.", "OK");
+            }
         }
     }
 }

@@ -9,18 +9,26 @@
     </ContentPage.BindingContext>
     
     <NavigationPage.TitleView>
-        <Button Text="Delete" x:Name="deleteAssessmentButton" Command="{Binding DeleteAssessmentCommand}"/>
+        <Button Text="Delete" x:Name="deleteAssessmentButton" Command="{Binding DeleteAssessmentCommand}" HorizontalOptions="End"/>
     </NavigationPage.TitleView>
 
     <ContentPage.Content>
         <StackLayout>
-            <Button Text="Edit Assessment" Style="{StaticResource editButton}"/>
             <Label x:Name="assessmentIDLabel" IsVisible="False" Text="{Binding AssessmentID, Mode=TwoWay}"/>
             <Label x:Name="courseIDLabel" IsVisible="False" Text="{Binding CourseID, Mode=TwoWay}"/>
             <Label x:Name="previousEndDate" IsVisible="False" Text="{Binding PreviousEndDate, Mode=TwoWay}"/>
-            
+
             <Entry x:Name="assessmentNameLabel" Text="{Binding AssessmentName}"/>
-            <Entry x:Name="assessmentTypeLabel" Text="{Binding AssessmentType}"/>
+            <Picker SelectedItem="{Binding AssessmentType}" x:Name="assessmentTypeLabel">
+                <Picker.Items>
+                    <x:String>
+                        Performance Assessment
+                    </x:String>
+                    <x:String>
+                        Objective Assessment
+                    </x:String>
+                </Picker.Items>
+            </Picker>
             <DatePicker x:Name="startDate" Date="{Binding StartDate, Mode=Default}"/>
             <DatePicker x:Name="endDate" Date="{Binding EndDate, Mode=Default}"/>
 

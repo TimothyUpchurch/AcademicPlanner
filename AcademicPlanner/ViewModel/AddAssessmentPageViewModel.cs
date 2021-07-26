@@ -3,6 +3,7 @@ using AcademicPlanner.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -19,6 +20,7 @@ namespace AcademicPlanner.ViewModel
                 SetField(ref _courseID, value);
             }
         }
+
         private string _assessmentName;
         public string AssessmentName
         {
@@ -59,28 +61,63 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
+        private int count = 0;
+
         public ICommand AddAssessmentCommand => new Command(AddAssessment);
         async void AddAssessment()
         {
             // check if two assessments are already added
-        
-            // create new assessment
-            Assessment assessment = new Assessment()
+            await NumberOfAssessments();
+            if (count < 2)
             {
-                CourseID = Int32.Parse(CourseID),
-                AssessmentName = AssessmentName,
-                AssessmentType = AssessmentType,
-                StartDate = StartDate,
-                EndDate = EndDate
-            };
-            await AssessmentService.AddAssessment(assessment);
+                if (Validations.EndDateAfterStart(StartDate, EndDate))
+                {
+                    if (AssessmentName != null && AssessmentType != null && StartDate != null && EndDate != null)
+                    {
+                        // create new assessment
+                        Assessment assessment = new Assessment()
+                        {
+                            CourseID = Int32.Parse(CourseID),
+                            AssessmentName = AssessmentName,
+                            AssessmentType = AssessmentType,
+                            StartDate = StartDate,
+                            EndDate = EndDate
+                        };
+                        await AssessmentService.AddAssessment(assessment);
 
-            SetNotifications(true, AssessmentName, $"{AssessmentName} ends on {EndDate}", 3, DateTime.Now.AddSeconds(5));
+                        SetNotifications(true, AssessmentName, $"{AssessmentName} ends on {EndDate}", 3, DateTime.Now.AddSeconds(5));
 
-            //send msg to update coursepageviewmodel assessment collection.
-            MessagingCenter.Send(assessment, "AddAssessment");
+                        //send msg to update coursepageviewmodel assessment collection.
+                        MessagingCenter.Send(assessment, "AddAssessment");
 
-            await Application.Current.MainPage.Navigation.PopAsync();
+                        await Application.Current.MainPage.Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Empty Fields", "All Fields Should Be Occupied.", "OK");
+                    }
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Invalid Date", "End Date Should Occur After Start Date.", "OK");
+                }
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Maximum Assessments", "Two Assessments Have Already Been Planned For This Course.", "OK");
+            }
+        }
+
+        async Task NumberOfAssessments()
+        {
+            var assessments = await AssessmentService.GetAssessment();
+            foreach(Assessment assessment in assessments)
+            {
+                if (assessment.CourseID == Int32.Parse(CourseID))
+                {
+                    count++;
+                }
+            }
         }
     }
 }
