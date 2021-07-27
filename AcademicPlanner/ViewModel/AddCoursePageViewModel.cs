@@ -3,6 +3,7 @@ using AcademicPlanner.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -111,44 +112,54 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
+        private int courseCount = 0;
+
         public ICommand AddCourseCommand => new Command(AddCourse);
         async void AddCourse()
         {
+            await CheckCourseCount();
             if (CourseName != null && StartDate != null && EndDate != null && CourseStatus != null && InstructorName != null && InstructorPhone != null && InstructorEmail != null)
             {
                 if (Validations.EndDateAfterStart(StartDate, EndDate))
                 {
-                    // create Course object from all user input data
-                    Course course = new Course
+                    if(courseCount != 6)
                     {
-                        // course name
-                        CourseName = CourseName,
-                        // term id
-                        TermID = Int32.Parse(TermID),
-                        // start date
-                        StartDate = StartDate,
-                        // end date
-                        EndDate = EndDate,
-                        // Course status
-                        CourseStatus = CourseStatus,
+                        // create Course object from all user input data
+                        Course course = new Course
+                        {
+                            // course name
+                            CourseName = CourseName,
+                            // term id
+                            TermID = Int32.Parse(TermID),
+                            // start date
+                            StartDate = StartDate,
+                            // end date
+                            EndDate = EndDate,
+                            // Course status
+                            CourseStatus = CourseStatus,
 
-                        // instructors name, phone, email
-                        InstructorName = InstructorName,
-                        InstructorPhone = InstructorPhone,
-                        InstructorEmail = InstructorEmail,
-                        // course notes
-                        CourseNotes = CourseNotes,
-                        // set alerts
-                        SetAlerts = (bool)SetAlerts
-                    };
-                    await CourseService.AddCourse(course);
+                            // instructors name, phone, email
+                            InstructorName = InstructorName,
+                            InstructorPhone = InstructorPhone,
+                            InstructorEmail = InstructorEmail,
+                            // course notes
+                            CourseNotes = CourseNotes,
+                            // set alerts
+                            SetAlerts = (bool)SetAlerts
+                        };
+                        await CourseService.AddCourse(course);
 
-                    SetNotifications(SetAlerts, CourseName, $"{CourseName} starts on {StartDate}", 1, DateTime.Now.AddSeconds(5));
-                    SetNotifications(SetAlerts, CourseName, $"{CourseName} ends on {EndDate}", 2, DateTime.Now.AddSeconds(8));
+                        SetNotifications(SetAlerts, CourseName, $"{CourseName} starts on {StartDate}", 1, DateTime.Now.AddSeconds(5));
+                        SetNotifications(SetAlerts, CourseName, $"{CourseName} ends on {EndDate}", 2, DateTime.Now.AddSeconds(8));
 
-                    // send message to termpageviewmodel to subscribe to the changes made here. // "AddCourse"
-                    MessagingCenter.Send(course, "AddCourse");
-                    await Application.Current.MainPage.Navigation.PopAsync();
+                        // send message to termpageviewmodel to subscribe to the changes made here. // "AddCourse"
+                        MessagingCenter.Send(course, "AddCourse");
+                        await Application.Current.MainPage.Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Maximum Courses Reached", "Each Term Can Only Have Up To Six Courses.", "OK");
+                    }
                 }
                 else
                 {
@@ -160,6 +171,19 @@ namespace AcademicPlanner.ViewModel
             {
                 // all fields need to be occupied.
                 await Application.Current.MainPage.DisplayAlert("Occupy All Fields", "All Fields Must Be Occupied.", "OK");
+            }
+        }
+
+        async Task CheckCourseCount()
+        {
+            var courses = await CourseService.GetCourse();
+            foreach (Course course in courses)
+            {
+                // only count courses with the same TermID as the selected term.
+                if (course.TermID == Int32.Parse(TermID))
+                {
+                    courseCount++;
+                }
             }
         }
     }
