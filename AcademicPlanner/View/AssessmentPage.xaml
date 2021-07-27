@@ -19,6 +19,7 @@
             <Label x:Name="previousEndDate" IsVisible="False" Text="{Binding PreviousEndDate, Mode=TwoWay}"/>
 
             <Entry x:Name="assessmentNameLabel" Text="{Binding AssessmentName, Mode=TwoWay}"/>
+            <Label Text="Assessment Type"/>
             <Picker SelectedItem="{Binding AssessmentType, Mode=TwoWay}" x:Name="assessmentTypeLabel">
                 <Picker.Items>
                     <x:String>
@@ -29,7 +30,11 @@
                     </x:String>
                 </Picker.Items>
             </Picker>
+            
+            <Label Text="Start Date"/>
             <DatePicker x:Name="startDate" Date="{Binding StartDate, Mode=Default}"/>
+
+            <Label Text="End Date"/>
             <DatePicker x:Name="endDate" Date="{Binding EndDate, Mode=Default}"/>
 
             <Button Text="Update Assessment" Command="{Binding EditAssessmentCommand}"/>

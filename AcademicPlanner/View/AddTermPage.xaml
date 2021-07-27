@@ -11,7 +11,9 @@
     <ContentPage.Content>
         <StackLayout>
             <Entry Placeholder="Term Name" Text="{Binding TermName}" />
+            <Label Text="Start Date"/>
             <DatePicker x:Name="startDate" Date="{Binding StartDate, Mode=OneWayToSource}"/>
+            <Label Text="End Date"/>
             <DatePicker x:Name="endDate" Date="{Binding EndDate, Mode=OneWayToSource}"/>
             <Button Text="Add" Command="{Binding AddTermCommand}"/>
         </StackLayout>

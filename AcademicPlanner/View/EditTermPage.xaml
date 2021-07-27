@@ -12,7 +12,9 @@
         <StackLayout>
             <Label Text="{Binding TermID, Mode=TwoWay}" x:Name="termID" IsVisible="false"/>
             <Entry x:Name="termName" Placeholder="Term Name" Text="{Binding TermName, Mode=TwoWay}" />
+            <Label Text="Start Date"/>
             <DatePicker x:Name="startDate" Date="{Binding StartDate, Mode=TwoWay}"/>
+            <Label Text="End Date"/>
             <DatePicker x:Name="endDate" Date="{Binding EndDate, Mode=TwoWay}"/>
             <Button Text="Update" Command="{Binding UpdateTermCommand}"/>
         </StackLayout>
