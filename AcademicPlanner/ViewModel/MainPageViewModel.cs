@@ -38,6 +38,8 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
+        private bool applicationLoaded = false;
+
         public ObservableCollection<Term> Terms { get; set; } = new ObservableCollection<Term>();
         public MainPageViewModel()
         {
@@ -74,20 +76,39 @@ namespace AcademicPlanner.ViewModel
         }
 
         // demo code
-        async Task DemoTerms()
+        async Task DemoData()
         {
-            Terms.Clear();
-            //await TermService.AddTerm("Term 1", DateTime.Now, DateTime.Today.AddDays(7));
-            await LoadTerms();
+            Term initialTerm = new Term()
+            {
+                TermName = "First Term",
+                TermStart = DateTime.Now,
+                TermEnd = DateTime.Today.AddDays(7)
+            };
+
+            if (applicationLoaded == false)
+            {
+                await TermService.AddTerm(initialTerm);
+                Terms.Add(initialTerm);
+                applicationLoaded = true;
+            }
         }
         async Task LoadTerms()
         {
+            bool nameMatch = false;
             // Init Terms collection
             Terms.Clear();
             var terms = await TermService.GetTerms();
             foreach (Term term in terms)
             {
                 Terms.Add((Term)term);
+                if (term.TermName == "First Term")
+                {
+                    nameMatch = true;
+                }
+            }
+            if(nameMatch == false)
+            {
+                await DemoData();
             }
         }
         public ICommand Navigate => new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddTermPage()));

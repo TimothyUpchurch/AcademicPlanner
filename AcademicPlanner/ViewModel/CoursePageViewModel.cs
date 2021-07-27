@@ -280,6 +280,36 @@ namespace AcademicPlanner.ViewModel
                     AssessmentCollection.Add(assessment);
                 }
             }
+            await DemoData();
+        }
+
+        async Task DemoData()
+        {
+            if (CourseName == "Mobile Development Using C#" && AssessmentCollection.Count == 0)
+            {
+                Assessment objective = new Assessment()
+                {
+                    CourseID = Int32.Parse(CourseID),
+                    AssessmentType = "Objective Assessment",
+                    AssessmentName = "C# Test",
+                    StartDate = Convert.ToDateTime("7/14/2021"),
+                    EndDate = Convert.ToDateTime("7/27/2021"),
+                };
+                Assessment performance = new Assessment()
+                {
+                    CourseID = Int32.Parse(CourseID),
+                    AssessmentType = "Performance Assessment",
+                    AssessmentName = "Xamarin Forms",
+                    StartDate = Convert.ToDateTime("7/14/2021"),
+                    EndDate = Convert.ToDateTime("7/27/2021"),
+                };
+
+                await AssessmentService.AddAssessment(objective);
+                await AssessmentService.AddAssessment(performance);
+
+                AssessmentCollection.Add(objective);
+                AssessmentCollection.Add(performance);
+            }
         }
     }
 }

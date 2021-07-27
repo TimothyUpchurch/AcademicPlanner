@@ -115,7 +115,33 @@ namespace AcademicPlanner.ViewModel
                 if (course.TermID == Int32.Parse(TermID))
                 {
                     Courses.Add((Course)course);
-                }            
+                }
+            }
+
+            await DemoData();
+        }
+
+        async Task DemoData()
+        {
+            // Only run for first term if the Courses count is 0
+            if (TermName == "First Term" && Courses.Count == 0)
+            {
+                Course initialCourse = new Course()
+                {
+                    CourseName = "Mobile Development Using C#",
+                    TermID = Int32.Parse(TermID),
+                    StartDate = Convert.ToDateTime("7/12/2021"),
+                    EndDate = Convert.ToDateTime("7/27/2021"),
+                    CourseStatus = "Complete",
+                    InstructorName = "Timothy Upchurch",
+                    InstructorEmail = "Tupchu5@wgu.edu",
+                    InstructorPhone = "618-210-6687",
+                    CourseNotes = "wrapping things up in the Xamarin Forms project.",
+                    SetAlerts = true
+                };
+
+                await CourseService.AddCourse(initialCourse);
+                Courses.Add(initialCourse);
             }
         }
 
