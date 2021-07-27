@@ -69,15 +69,19 @@ namespace AcademicPlanner.ViewModel
         {
             count = 0;
             conflictingAssessmentType = false;
-            // check if two assessments are already added
+            
             await NumberOfAssessments();
+            // check if two assessments are already added
             if (count != 2)
             {
+                // end date should occur after start
                 if (Validations.EndDateAfterStart(StartDate, EndDate))
                 {
+                    // no field should be empty
                     if (AssessmentName != null && AssessmentType != null && StartDate != null && EndDate != null)
                     {
                         await CheckConflictingAssessmentTypes();
+                        // check assessment types and avoid duplicates
                         if (conflictingAssessmentType == false)
                         {
                             // create new assessment
@@ -125,13 +129,13 @@ namespace AcademicPlanner.ViewModel
             var assessments = await AssessmentService.GetAssessment();
             foreach(Assessment assessment in assessments)
             {
+                // count number of assessments related to the selected course
                 if (assessment.CourseID == Int32.Parse(CourseID))
                 {
                     count++;
                 }
             }
         }
-
         async Task CheckConflictingAssessmentTypes()
         {
             var assessments = await AssessmentService.GetAssessment();

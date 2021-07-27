@@ -86,15 +86,14 @@ namespace AcademicPlanner.ViewModel
 
 
         public ICommand DeleteAssessmentCommand => new Command(DeleteAssessment);
-        //Object assessment
         async void DeleteAssessment()
         {
             bool answer = await Application.Current.MainPage.DisplayAlert("Delete", "Are You Sure You Want To Delete This Assessment?", "Yes", "No");
             if (answer)
             {
-                //Assessment deleteAssessment = assessment as Assessment;
                 await AssessmentService.RemoveAssessment(Int32.Parse(AssessmentID));
 
+                // notify coursepageVM that an assessment has been deleted
                 MessagingCenter.Send(AssessmentID, "DeleteAssessment");
 
                 await Application.Current.MainPage.Navigation.PopAsync();
@@ -106,11 +105,14 @@ namespace AcademicPlanner.ViewModel
         {
             conflictingAssessmentType = false;
 
+            // check for invalid dates
             if (Validations.EndDateAfterStart(StartDate, EndDate))
             {
+                // check for empty fields
                 if (AssessmentName != "" && AssessmentType != "")
                 {
                     await CheckConflictingAssessmentTypes();
+                    // check for existing assessment types and avoid duplicates
                     if (conflictingAssessmentType == false)
                     {
                         Assessment assessment = new Assessment()
@@ -125,7 +127,7 @@ namespace AcademicPlanner.ViewModel
 
                         if (PreviousEndDate != assessment.EndDate)
                         {
-                            //If the end date was updated send out a new notification.
+                            // if the end date was updated send out a new notification.
                             SetNotifications(true, AssessmentName, $"{AssessmentName} ends on {EndDate}", 3, DateTime.Now.AddSeconds(5));
                         }
 
@@ -150,7 +152,6 @@ namespace AcademicPlanner.ViewModel
                 await Application.Current.MainPage.DisplayAlert("Invalid Date", "End Date Must Occur After The Start Date.", "OK");
             }
         }
-
         async Task CheckConflictingAssessmentTypes()
         {
             var assessments = await AssessmentService.GetAssessment();

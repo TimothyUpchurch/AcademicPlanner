@@ -59,19 +59,17 @@ namespace AcademicPlanner.ViewModel
                     }
                 }
             });
-
+            // subscribe to the message sent from EditTermPageVM.
             MessagingCenter.Subscribe<Term>(this, "UpdateTerm", term =>
             {
-                //_ = LoadTerms();
                 for(int i = 0; i < Terms.Count; i++)
                 {
+                    // update the term with the matching termid
                     if (Terms[i].TermID == term.TermID)
                     {
                         Terms[i] = term;
                     }
                 }
-                //SelectedTerm = term;
-                //TermName = SelectedTerm.TermName;
             });
         }
 
@@ -84,15 +82,14 @@ namespace AcademicPlanner.ViewModel
         }
         async Task LoadTerms()
         {
+            // Init Terms collection
             Terms.Clear();
-            var terms = (await TermService.GetTerms());
+            var terms = await TermService.GetTerms();
             foreach (Term term in terms)
             {
                 Terms.Add((Term)term);
             }
         }
-
-        // Commands
         public ICommand Navigate => new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddTermPage()));
     }
 }

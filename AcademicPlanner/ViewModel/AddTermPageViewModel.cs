@@ -34,9 +34,10 @@ namespace AcademicPlanner.ViewModel
         public ICommand AddTermCommand => new Command(AddTerm);
         async void AddTerm()
         {
-            // Check name value is entered in
+            // Check if name value is entered in
             if (TermName != null)
             {
+                // end date should occur after the start date
                 if (Validations.EndDateAfterStart(StartDate, EndDate))
                 {
                     // create new term from user selected values      
@@ -47,6 +48,7 @@ namespace AcademicPlanner.ViewModel
                         TermEnd = EndDate
                     };
                     await TermService.AddTerm(newTerm);
+
                     // Send msg to add new term to the Terms observablecollection in the mainpageviewmodel
                     MessagingCenter.Send(newTerm, "AddTerm");
                     await Application.Current.MainPage.Navigation.PopAsync();

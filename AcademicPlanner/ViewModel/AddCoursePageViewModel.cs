@@ -149,6 +149,7 @@ namespace AcademicPlanner.ViewModel
                         };
                         await CourseService.AddCourse(course);
 
+                        // when a course is added set notifications for the start and end date
                         SetNotifications(SetAlerts, CourseName, $"{CourseName} starts on {StartDate}", 1, DateTime.Now.AddSeconds(5));
                         SetNotifications(SetAlerts, CourseName, $"{CourseName} ends on {EndDate}", 2, DateTime.Now.AddSeconds(8));
 

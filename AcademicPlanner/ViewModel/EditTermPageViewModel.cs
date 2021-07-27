@@ -69,13 +69,11 @@ namespace AcademicPlanner.ViewModel
 
                     // send UpdateTerm msg to the 
                     MessagingCenter.Send(updateTerm, "UpdateTerm");
-
-                    // navigate popstack
                     await Application.Current.MainPage.Navigation.PopAsync();
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "End Date Should Occur After The Start Date.", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Invalid Date", "End Date Should Occur After The Start Date.", "OK");
                 }
             }
             else

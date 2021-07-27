@@ -13,7 +13,7 @@ namespace AcademicPlanner.ViewModel
 {
     class TermPageViewModel : BaseViewModel
     {
-        public ObservableCollection<Course> Courses { get; set; } = new ObservableCollection<Course>(); // all courses in the term
+        public ObservableCollection<Course> Courses { get; set; } = new ObservableCollection<Course>(); // all courses in the selected term
 
         // selected term id. Will be used when creating new courses for the selected term.
         private string _termID;
@@ -68,8 +68,10 @@ namespace AcademicPlanner.ViewModel
 
         public TermPageViewModel()
         {
+            // init the Courses collection
             _ = LoadCourses();
 
+            // subscribe to messages sent from other viewmodels
             MessagingCenter.Subscribe<Course>(this, "AddCourse", course =>
             {
                 Courses.Add(course);
@@ -109,6 +111,7 @@ namespace AcademicPlanner.ViewModel
             var courses = await CourseService.GetCourse();
             foreach (Course course in courses)
             {
+                // only show courses related to the selected term
                 if (course.TermID == Int32.Parse(TermID))
                 {
                     Courses.Add((Course)course);
@@ -122,9 +125,9 @@ namespace AcademicPlanner.ViewModel
             bool answer = await Application.Current.MainPage.DisplayAlert("Delete", "Are You Sure You Want To Delete This Term?", "Yes", "No");
             if (TermID != null && answer)
             {
-                //Term deletedTerm = term as Term;
                 DeleteAssociatedCourses(Int32.Parse(TermID)); // delete courses before deleting the term they are associated with
                 await TermService.RemoveTerm(Int32.Parse(TermID));
+                // send a message notifying that a term has been deleted to the mainpage 
                 MessagingCenter.Send(TermID, "DeleteTerm");
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
@@ -134,20 +137,17 @@ namespace AcademicPlanner.ViewModel
             var courses = await CourseService.GetCourse();
             foreach (Course course in courses)
             {
+                // Remove all courses that have the selected term id
                 if (course.TermID == termID)
                 {
-                    // Remove Course
                     await CourseService.RemoveCourse(course.CourseID);
                 }
             }
         }
 
         public ICommand EditTermCommand => new Command(EditTerm);
-        //Object term
         async void EditTerm()
         {
-            //Term editTerm = term as Term;
-
             Term editTerm = new Term()
             {
                 TermID = Int32.Parse(TermID),
@@ -163,6 +163,7 @@ namespace AcademicPlanner.ViewModel
         public ICommand NavigateToCoursePageCommand => new Command(NavigateToCoursePage);
         async void NavigateToCoursePage(Object course)
         {
+            // cast selectedItem to course
             Course courseToNavigate = course as Course;
             if (course == null) return;
             await Application.Current.MainPage.Navigation.PushAsync(new CoursePage(courseToNavigate));

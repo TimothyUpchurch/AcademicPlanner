@@ -151,7 +151,7 @@ namespace AcademicPlanner.ViewModel
                 DeleteAssociatedAssessments();
 
                 await CourseService.RemoveCourse(Int32.Parse(CourseID));
-
+                // send a message to the termpageVM notifying that a course has been deleted
                 MessagingCenter.Send(CourseID, "DeleteCourse");
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
@@ -162,6 +162,7 @@ namespace AcademicPlanner.ViewModel
             var assessments = await AssessmentService.GetAssessment();
             foreach (Assessment assessment in assessments)
             {
+                // delete all assessments related to the selected course
                 if (assessment.CourseID == Int32.Parse(CourseID))
                 {
                     await AssessmentService.RemoveAssessment(assessment.AssessmentID);
@@ -205,13 +206,14 @@ namespace AcademicPlanner.ViewModel
                 {
                     Subject = $"Course Notes For {CourseName}",
                     Body = CourseNotes,
-                    To = { "Timmyupc@gmail.com" }
+                    To = { "Tupchu5@wgu.edu" }
                 };
                 await Email.ComposeAsync(message);
             }
             catch (FeatureNotSupportedException fbsEx)
             {
                 // Email is not supported on this device
+                _ = Application.Current.MainPage.DisplayAlert("Feature Not Supported", "Emailing not supported on this device.", "OK");
             }
             catch (Exception ex)
             {
@@ -219,14 +221,14 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
-
-        // Create an observablecollection to store assessments and set the binding to a listview in the ui
+        // Create an observablecollection to store assessments associated with selected course
         public ObservableCollection<Assessment> AssessmentCollection { get; set; } = new ObservableCollection<Assessment>();
 
         public CoursePageViewModel()
         {
             _ = LoadAssessments();
 
+            // subscribe to messages and update information accordingly
             MessagingCenter.Subscribe<Assessment>(this, "AddAssessment", assessment =>
             {
                 AssessmentCollection.Add(assessment);
@@ -251,7 +253,6 @@ namespace AcademicPlanner.ViewModel
                     }
                 }
             });
-            // Msg for updatingcourse
             MessagingCenter.Subscribe<Course>(this, "UpdateCourse", course =>
             {
                 CourseID = course.CourseID.ToString();
@@ -269,6 +270,7 @@ namespace AcademicPlanner.ViewModel
         }
         async Task LoadAssessments()
         {
+            // Init the AssessmentCollection with data from database
             AssessmentCollection.Clear();
             var assessments = await AssessmentService.GetAssessment();
             foreach (Assessment assessment in assessments)

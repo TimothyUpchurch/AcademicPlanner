@@ -134,6 +134,7 @@ namespace AcademicPlanner.ViewModel
         public ICommand UpdateCourseCommand => new Command(UpdateCourse);
         async void UpdateCourse()
         {
+            // ensure no empty fields
             if (CourseName != "" && StartDate != null && EndDate != null && CourseStatus != "" && InstructorName != "" && InstructorPhone != "" && InstructorEmail != "")
             {
                 if (Validations.EndDateAfterStart(StartDate, EndDate))
@@ -154,6 +155,7 @@ namespace AcademicPlanner.ViewModel
                     };
                     await CourseService.UpdateCourse(course);
 
+                    // Send message to the CoursePageVM to update course information
                     MessagingCenter.Send<Course>(course, "UpdateCourse");
 
                     // check if the EndDate is different. If so set a new reminder
@@ -166,7 +168,7 @@ namespace AcademicPlanner.ViewModel
                 }
                 else
                 {
-                    // tell user end dat needs to come after start date.
+                    // end date needs to come after the start date.
                     await Application.Current.MainPage.DisplayAlert("Invalid Date", "End Date Must Occur After The Start Date.", "OK");
                 }
             }
