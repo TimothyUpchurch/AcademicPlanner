@@ -3,6 +3,7 @@ using AcademicPlanner.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -81,17 +82,20 @@ namespace AcademicPlanner.ViewModel
             }
         }
 
+        private bool conflictingAssessmentType;
+
 
         public ICommand DeleteAssessmentCommand => new Command(DeleteAssessment);
-        async void DeleteAssessment(Object assessment)
+        //Object assessment
+        async void DeleteAssessment()
         {
             bool answer = await Application.Current.MainPage.DisplayAlert("Delete", "Are You Sure You Want To Delete This Assessment?", "Yes", "No");
             if (answer)
             {
-                Assessment deleteAssessment = assessment as Assessment;
-                await AssessmentService.RemoveAssessment(deleteAssessment);
+                //Assessment deleteAssessment = assessment as Assessment;
+                await AssessmentService.RemoveAssessment(Int32.Parse(AssessmentID));
 
-                MessagingCenter.Send(deleteAssessment, "DeleteAssessment");
+                MessagingCenter.Send(AssessmentID, "DeleteAssessment");
 
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
@@ -100,30 +104,40 @@ namespace AcademicPlanner.ViewModel
         public ICommand EditAssessmentCommand => new Command(EditAssessment);
         async void EditAssessment()
         {
+            conflictingAssessmentType = false;
+
             if (Validations.EndDateAfterStart(StartDate, EndDate))
             {
                 if (AssessmentName != "" && AssessmentType != "")
                 {
-                    Assessment assessment = new Assessment()
+                    await CheckConflictingAssessmentTypes();
+                    if (conflictingAssessmentType == false)
                     {
-                        AssessmentID = Int32.Parse(AssessmentID),
-                        CourseID = Int32.Parse(CourseID),
-                        AssessmentName = AssessmentName,
-                        AssessmentType = AssessmentType,
-                        StartDate = StartDate,
-                        EndDate = EndDate
-                    };
+                        Assessment assessment = new Assessment()
+                        {
+                            AssessmentID = Int32.Parse(AssessmentID),
+                            CourseID = Int32.Parse(CourseID),
+                            AssessmentName = AssessmentName,
+                            AssessmentType = AssessmentType,
+                            StartDate = StartDate,
+                            EndDate = EndDate
+                        };
 
-                    if (PreviousEndDate != assessment.EndDate)
-                    {
-                        //If the end date was updated send out a new notification.
-                        SetNotifications(true, AssessmentName, $"{AssessmentName} ends on {EndDate}", 4, DateTime.Now.AddSeconds(5));
+                        if (PreviousEndDate != assessment.EndDate)
+                        {
+                            //If the end date was updated send out a new notification.
+                            SetNotifications(true, AssessmentName, $"{AssessmentName} ends on {EndDate}", 3, DateTime.Now.AddSeconds(5));
+                        }
+
+                        await AssessmentService.UpdateAssessment(assessment);
+                        MessagingCenter.Send(assessment, "UpdateAssessment");
+
+                        await Application.Current.MainPage.Navigation.PopAsync();
                     }
-
-                    await AssessmentService.UpdateAssessment(assessment);
-                    MessagingCenter.Send(assessment, "UpdateAssessment");
-
-                    await Application.Current.MainPage.Navigation.PopAsync();
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Assessment Type Already Added", "Please Try Adding A Different Assessment Type.", "OK");
+                    }
                 }
                 else
                 {
@@ -134,6 +148,24 @@ namespace AcademicPlanner.ViewModel
             else
             {
                 await Application.Current.MainPage.DisplayAlert("Invalid Date", "End Date Must Occur After The Start Date.", "OK");
+            }
+        }
+
+        async Task CheckConflictingAssessmentTypes()
+        {
+            var assessments = await AssessmentService.GetAssessment();
+            
+            foreach (Assessment assessment in assessments)
+            {
+                // check the assessments relevant to this course and ignore the selected assessment when comparing Types.
+                if (assessment.CourseID == Int32.Parse(CourseID) && assessment.AssessmentID != Int32.Parse(AssessmentID))
+                {
+                    // if the assessment type already exists
+                    if (assessment.AssessmentType == AssessmentType)
+                    {
+                        conflictingAssessmentType = true;
+                    }
+                }
             }
         }
     }

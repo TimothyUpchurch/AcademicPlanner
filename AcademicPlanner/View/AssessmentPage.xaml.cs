@@ -16,7 +16,7 @@ namespace AcademicPlanner.View
         public AssessmentPage(Assessment assessment)
         {
             InitializeComponent();
-            deleteAssessmentButton.CommandParameter = assessment;
+            //deleteAssessmentButton.CommandParameter = assessment;
 
             assessmentIDLabel.Text = assessment.AssessmentID.ToString();
             courseIDLabel.Text = assessment.CourseID.ToString();

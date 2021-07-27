@@ -18,8 +18,8 @@
             <Label x:Name="courseIDLabel" IsVisible="False" Text="{Binding CourseID, Mode=TwoWay}"/>
             <Label x:Name="previousEndDate" IsVisible="False" Text="{Binding PreviousEndDate, Mode=TwoWay}"/>
 
-            <Entry x:Name="assessmentNameLabel" Text="{Binding AssessmentName}"/>
-            <Picker SelectedItem="{Binding AssessmentType}" x:Name="assessmentTypeLabel">
+            <Entry x:Name="assessmentNameLabel" Text="{Binding AssessmentName, Mode=TwoWay}"/>
+            <Picker SelectedItem="{Binding AssessmentType, Mode=TwoWay}" x:Name="assessmentTypeLabel">
                 <Picker.Items>
                     <x:String>
                         Performance Assessment

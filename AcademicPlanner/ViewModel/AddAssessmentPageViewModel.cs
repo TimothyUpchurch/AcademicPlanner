@@ -62,35 +62,47 @@ namespace AcademicPlanner.ViewModel
         }
 
         private int count = 0;
+        private bool conflictingAssessmentType;
 
         public ICommand AddAssessmentCommand => new Command(AddAssessment);
         async void AddAssessment()
         {
+            count = 0;
+            conflictingAssessmentType = false;
             // check if two assessments are already added
             await NumberOfAssessments();
-            if (count < 2)
+            if (count != 2)
             {
                 if (Validations.EndDateAfterStart(StartDate, EndDate))
                 {
                     if (AssessmentName != null && AssessmentType != null && StartDate != null && EndDate != null)
                     {
-                        // create new assessment
-                        Assessment assessment = new Assessment()
+                        await CheckConflictingAssessmentTypes();
+                        if (conflictingAssessmentType == false)
                         {
-                            CourseID = Int32.Parse(CourseID),
-                            AssessmentName = AssessmentName,
-                            AssessmentType = AssessmentType,
-                            StartDate = StartDate,
-                            EndDate = EndDate
-                        };
-                        await AssessmentService.AddAssessment(assessment);
+                            // create new assessment
+                            Assessment assessment = new Assessment()
+                            {
+                                CourseID = Int32.Parse(CourseID),
+                                AssessmentName = AssessmentName,
+                                AssessmentType = AssessmentType,
+                                StartDate = StartDate,
+                                EndDate = EndDate
+                            };
+                            await AssessmentService.AddAssessment(assessment);
 
-                        SetNotifications(true, AssessmentName, $"{AssessmentName} ends on {EndDate}", 3, DateTime.Now.AddSeconds(5));
+                            SetNotifications(true, AssessmentName, $"{AssessmentName} ends on {EndDate}", 3, DateTime.Now.AddSeconds(5));
 
-                        //send msg to update coursepageviewmodel assessment collection.
-                        MessagingCenter.Send(assessment, "AddAssessment");
+                            //send msg to update coursepageviewmodel assessment collection.
+                            MessagingCenter.Send(assessment, "AddAssessment");
 
-                        await Application.Current.MainPage.Navigation.PopAsync();
+                            await Application.Current.MainPage.Navigation.PopAsync();
+                        }
+                        else
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Assessment Type Already Added", "Please Try Adding A Different Assessment Type.", "OK");
+                            AssessmentType = "";
+                        }
                     }
                     else
                     {
@@ -116,6 +128,23 @@ namespace AcademicPlanner.ViewModel
                 if (assessment.CourseID == Int32.Parse(CourseID))
                 {
                     count++;
+                }
+            }
+        }
+
+        async Task CheckConflictingAssessmentTypes()
+        {
+            var assessments = await AssessmentService.GetAssessment();
+            foreach (Assessment assessment in assessments)
+            {
+                // check the assessments relevant to this course
+                if (assessment.CourseID == Int32.Parse(CourseID))
+                {
+                    // if the assessment type already exists
+                    if (assessment.AssessmentType == AssessmentType)
+                    {
+                        conflictingAssessmentType = true;
+                    }
                 }
             }
         }

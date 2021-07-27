@@ -164,7 +164,7 @@ namespace AcademicPlanner.ViewModel
             {
                 if (assessment.CourseID == Int32.Parse(CourseID))
                 {
-                    await AssessmentService.RemoveAssessment(assessment);
+                    await AssessmentService.RemoveAssessment(assessment.AssessmentID);
                 }
             }
         }
@@ -231,9 +231,15 @@ namespace AcademicPlanner.ViewModel
             {
                 AssessmentCollection.Add(assessment);
             });
-            MessagingCenter.Subscribe<Assessment>(this, "DeleteAssessment", assessment => 
+            MessagingCenter.Subscribe<String>(this, "DeleteAssessment", assessment => 
             {
-                AssessmentCollection.Remove(assessment);
+                for (int i = 0; i < AssessmentCollection.Count; i++)
+                {
+                    if (AssessmentCollection[i].AssessmentID == Int32.Parse(assessment))
+                    {
+                        AssessmentCollection.Remove(AssessmentCollection[i]);
+                    }
+                }
             });
             MessagingCenter.Subscribe<Assessment>(this, "UpdateAssessment", assessment =>
             {
