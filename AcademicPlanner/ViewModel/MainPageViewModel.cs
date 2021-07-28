@@ -106,7 +106,7 @@ namespace AcademicPlanner.ViewModel
                     nameMatch = true;
                 }
             }
-            if(nameMatch == false)
+            if(nameMatch == false && Terms.Count == 0)
             {
                 await DemoData();
             }
